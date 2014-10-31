@@ -16,7 +16,7 @@ app.get('/', function(req, res){
 
 app.post('/luna-ui', function(req, res) {
   console.log(req.body);
-  res.status(202).send(data);
+  res.status(202).send();
 });
 
 var server = app.listen(port, function(){
