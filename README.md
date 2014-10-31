@@ -1,2 +1,1 @@
-AsanaGithubIntegration
-======================
+Hosted at asanagh.azurewebsites.net
