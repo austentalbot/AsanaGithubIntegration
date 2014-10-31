@@ -1,0 +1,28 @@
+{
+  "name": "AsanaGithubIntegration",
+  "version": "1.0.0",
+  "description": "AsanaGithubIntegration ======================",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.9.2",
+    "cors": "^2.5.0",
+    "express": "^4.10.1",
+    "nodemon": "^1.2.1",
+    "request": "^2.47.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/austentalbot/AsanaGithubIntegration.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/austentalbot/AsanaGithubIntegration/issues"
+  },
+  "homepage": "https://github.com/austentalbot/AsanaGithubIntegration"
+}
