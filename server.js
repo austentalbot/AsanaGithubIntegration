@@ -4,6 +4,16 @@ var port = process.env.PORT || 4545;
 var cors=require('cors');
 var bodyParser = require('body-parser');
 
+//load credentials locally or from host
+var credentials = {};
+if (process.env.PORT===undefined) {
+  credentials = require('./credentials.js');
+} else {
+  credentials = {
+    key: process.env['key']
+  };
+}
+
 //initialize app and use cors & body parser
 var app = express();
 app.use(cors());
