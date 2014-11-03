@@ -18,7 +18,7 @@ if (process.env.PORT===undefined) {
     defaultAsiggnee: process.env['defaultAssignee'],
     workspace: process.env['workspace'],
     project: process.env['project'],
-    ghToAsana: process.env['ghToAsana']
+    ghToAsana: JSON.parse(process.env['ghToAsana'])
   };
 }
 
@@ -78,12 +78,13 @@ app.get('/', function(req, res){
 });
 
 app.get('/test', function(req, res){
-  createTask(req, res);
+  createTask(req.body, res);
 });
 
 app.post('/luna-ui', function(req, res) {
-  console.log(req.body);
-  res.status(202).send();
+  createTask(req.body, res);
+  // console.log(req.body);
+  // res.status(202).send();
 });
 
 var server = app.listen(port, function(){
