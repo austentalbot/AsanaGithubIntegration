@@ -14,7 +14,11 @@ if (process.env.PORT===undefined) {
   credentials = require('./credentials.js');
 } else {
   credentials = {
-    key: process.env['key']
+    key: process.env['key'],
+    defaultAsiggnee: process.env['defaultAssignee'],
+    workspace: process.env['workspace'],
+    project: process.env['project'],
+    ghToAsana: process.env['ghToAsana']
   };
 }
 
@@ -56,7 +60,7 @@ var createTask = function(action, res) {
       'sendImmediately': true
     },
     form: {
-      assignee: credentials.assignee,
+      assignee: ghToAsana[credentials.assignee] || ghToAsana[credentials.creator] || credentials.defaultAssignee,
       name: pull.name,
       workspace: credentials.workspace,
       project: credentials.project,
