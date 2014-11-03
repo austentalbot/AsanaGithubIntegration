@@ -3,6 +3,7 @@ var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var request = require('request');
+var moment = require('moment-timezone');
 
 var port = process.env.PORT || 4545;
 var asana = 'https://app.asana.com/api/1.0'
@@ -26,26 +27,27 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 //create functions to be used for endpoints
-var createTask = function(req) {
-  //sent post request to asana api endpoint '/tasks'
-  //include data block
-
-  // 'https://app.asana.com/api/1.0/users/me'
-
-  var apiKey = new Buffer(credentials.key + ':').toString('base64');
-  console.log(apiKey);
-
-  // request.get('https://app.asana.com/api/1.0/users/me', {
-  //   'auth': {
-  //     'user': credentials.key,
-  //     'pass': '',
-  //     'sendImmediately': true
-  //   }
-  // }, function(err, resp, body) {
-  //   console.log(err);
-  //   console.log(body);
-  // });
-
+var createTask = function(action, res) {
+  // var action = JSON.parse(req);
+  var pull = {
+    assignee: action.issue.assignee,
+    creationDate: moment(action.issue.created_at).tz("America/Los_Angeles").format('MMMM Do YYYY, h:mm:ss a'),
+    creator: action.issue.user.login,
+    name: action.issue.title,
+    notes: function() {
+      return [
+        action.comment.body,
+        '\nPull by:', this.creator, 
+        '\nAssigned to:',
+        this.assignee || 'no one',
+        '\nDate:',
+        this.creationDate,
+        '\nURL:',
+        this.url
+      ].join(' ');
+    },
+    url: action.issue.pull_request.html_url
+  }
   request.post({
     url: asana + '/tasks',
     auth: {
@@ -54,17 +56,17 @@ var createTask = function(req) {
       'sendImmediately': true
     },
     form: {
-      api_key: apiKey,
       assignee: credentials.assignee,
-      name: 'Test task',
+      name: pull.name,
       workspace: credentials.workspace,
-      project: credentials.project
+      project: credentials.project,
+      notes: pull.notes()
     }
   }, function(err, resp, body) {
     console.log(err);
     console.log(body);
+    res.status(201).send();
   });
-
 };
 
 app.get('/', function(req, res){
@@ -72,8 +74,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/test', function(req, res){
-  createTask();
-  res.status(200).send('Asana Github Integration');
+  createTask(req, res);
 });
 
 app.post('/luna-ui', function(req, res) {
