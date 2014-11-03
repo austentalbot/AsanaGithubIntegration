@@ -18,7 +18,7 @@ if (process.env.PORT===undefined) {
     defaultAsiggnee: process.env['defaultAssignee'],
     workspace: process.env['workspace'],
     project: process.env['project'],
-    ghToAsana: JSON.parse(process.env['ghToAsana'])
+    // ghToAsana: JSON.parse(process.env['ghToAsana'])
   };
 }
 
