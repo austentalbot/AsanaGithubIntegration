@@ -28,8 +28,6 @@ var asana = {
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
       creator: action.issue.user.login,
-      id: action.issue.id,
-      name: action.issue.title,
       notes: function() {
         return [
           action.comment.body,
@@ -42,6 +40,7 @@ var asana = {
           this.url
         ].join(' ');
       },
+      title: [action.issue.title, action.issue.number].join(' '),
       url: action.issue.pull_request.html_url
     }
     request.post({
@@ -56,7 +55,7 @@ var asana = {
           credentials.ghToAsana[pull.assignee] || 
           credentials.ghToAsana[pull.creator] || 
           credentials.defaultAssignee,
-        name: pull.name + ' ' + pull.id,
+        name: pull.title,
         workspace: credentials.asanaWorkspace,
         projects: [credentials.asanaProject],
         notes: pull.notes()
@@ -64,14 +63,37 @@ var asana = {
     }, function(err, resp, body) {
       console.log(err);
       console.log(body);
-      res.status(201).send();
+      var response = JSON.parse(body);
+      if ('errors' in response) {
+        res.status(501).send(JSON.stringify(response.errors));
+      } else {
+        res.status(201).send('Created task');
+      }
     });
   },
   createComment: function(action, res) {
+    //pull out relevant info from comment
+    var comment = {
+      author: action.pull_request.user.login,
+      creationDate: moment(action.pull_request.created_at)
+        .tz("America/Los_Angeles")
+        .format('MMMM Do YYYY, h:mm:ss a'),
+      notes: function() {
+        return [
+          'Comment:\n',
+          action.pull_request.body,
+          '\n\nBy:',
+          this.author,
+          '\nDate:',
+          this.creationDate
+        ].join(' ');
+      },
+      title: [action.pull_request.title, action.pull_request.number].join(' '),
+      url: action.pull_request.html_url
+    };
     //find associated task id by task name
-    //add comment to that task
     request.get({
-      url: [asanaUrl, '/projects/', credentials.asanaProject, 'asdf/tasks'].join(''),
+      url: [asanaUrl,'/projects/',credentials.asanaProject,'/tasks'].join(''),
       auth: {
         'user': credentials.key,
         'pass': '',
@@ -79,12 +101,45 @@ var asana = {
       }
     }, function(err, resp, body) {
       var tasks = JSON.parse(body);
+      var task;
       if ('errors' in tasks) {
-        res.status(501).send(JSON.stringify(tasks.errors))
+        res.status(501).send(JSON.stringify(tasks.errors));
       } else {
-        console.log(tasks);
-        // console.log(body);
-        res.status(201).send();
+        for (var i=0; i<tasks.data.length; i++) {
+          var val = tasks.data[i];
+          console.log(val);
+          // if (val.name===comment.title) {
+          if (val.name==='Pull request: This is a test. Please ignore.') {
+            task = val;
+            break;
+          }
+        }
+        if (task) {
+          //add comment to task
+          console.log(task);
+          request.post({
+            url: [asanaUrl,'/tasks/',task.id,'/stories'].join(''),
+            auth: {
+              'user': credentials.key,
+              'pass': '',
+              'sendImmediately': true
+            },
+            form: {
+              text: comment.notes()
+            }
+          }, function(err, resp, body) {
+            console.log(err);
+            console.log(body);
+            var response = JSON.parse(body);
+            if ('errors' in response) {
+              res.status(501).send(JSON.stringify(response.errors));
+            } else {
+              res.status(201).send('Created comment');
+            }
+          });
+        } else {
+          res.status(501).send('Could not find task associated with pull request');
+        }
       }
     });
   }
