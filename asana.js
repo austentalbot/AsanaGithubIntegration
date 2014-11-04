@@ -24,7 +24,9 @@ var asana = {
   createTask: function(action, res) {
     var pull = {
       assignee: action.issue.assignee,
-      creationDate: moment(action.issue.created_at).tz("America/Los_Angeles").format('MMMM Do YYYY, h:mm:ss a'),
+      creationDate: moment(action.issue.created_at)
+        .tz("America/Los_Angeles")
+        .format('MMMM Do YYYY, h:mm:ss a'),
       creator: action.issue.user.login,
       id: action.issue.id,
       name: action.issue.title,
@@ -50,7 +52,10 @@ var asana = {
         'sendImmediately': true
       },
       form: {
-        assignee: credentials.ghToAsana[pull.assignee] || credentials.ghToAsana[pull.creator] || credentials.defaultAssignee,
+        assignee: 
+          credentials.ghToAsana[pull.assignee] || 
+          credentials.ghToAsana[pull.creator] || 
+          credentials.defaultAssignee,
         name: pull.name + ' ' + pull.id,
         workspace: credentials.asanaWorkspace,
         projects: [credentials.asanaProject],
@@ -60,6 +65,27 @@ var asana = {
       console.log(err);
       console.log(body);
       res.status(201).send();
+    });
+  },
+  createComment: function(action, res) {
+    //find associated task id by task name
+    //add comment to that task
+    request.get({
+      url: [asanaUrl, '/projects/', credentials.asanaProject, 'asdf/tasks'].join(''),
+      auth: {
+        'user': credentials.key,
+        'pass': '',
+        'sendImmediately': true
+      }
+    }, function(err, resp, body) {
+      var tasks = JSON.parse(body);
+      if ('errors' in tasks) {
+        res.status(501).send(JSON.stringify(tasks.errors))
+      } else {
+        console.log(tasks);
+        // console.log(body);
+        res.status(201).send();
+      }
     });
   }
 };
