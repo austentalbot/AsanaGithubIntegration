@@ -23,14 +23,14 @@ console.log(credentials);
 var asana = {
   createTask: function(action, res) {
     var pull = {
-      assignee: action.issue.assignee,
-      creationDate: moment(action.issue.created_at)
+      assignee: action.pull_request.assignee,
+      creationDate: moment(action.pull_request.created_at)
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
-      creator: action.issue.user.login,
+      creator: action.pull_request.user.login,
       notes: function() {
         return [
-          action.comment.body,
+          action.pull_request.body,
           '\nPull by:', this.creator, 
           '\nAssigned to:',
           this.assignee || 'no one',
@@ -40,8 +40,8 @@ var asana = {
           this.url
         ].join(' ');
       },
-      title: [action.issue.title, action.issue.id].join(' '),
-      url: action.issue.pull_request.html_url
+      title: [action.pull_request.title, action.pull_request.id].join(' '),
+      url: action.pull_request.pull_request.html_url
     }
     request.post({
       url: asanaUrl + '/tasks',
