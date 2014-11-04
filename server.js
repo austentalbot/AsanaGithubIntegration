@@ -23,6 +23,7 @@ if (process.env.PORT===undefined) {
 }
 
 console.log(credentials);
+
 //initialize app and use cors & body parser
 var app = express();
 app.use(cors());
