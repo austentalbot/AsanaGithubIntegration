@@ -2,8 +2,6 @@
 var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
-var request = require('request');
-var moment = require('moment-timezone');
 
 var port = process.env.PORT || 4545;
 var asana = 'https://app.asana.com/api/1.0'
