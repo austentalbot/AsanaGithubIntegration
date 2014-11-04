@@ -92,6 +92,37 @@ var asana = {
       url: action.pull_request.html_url
     };
     //find associated task id by task name
+    // this.findTask(comment.title, function(task, err) {
+    this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
+      if (!task) {
+        res.status(501).send(err || 'Could not find task associated with pull request');
+      } else {
+        //add comment to task
+        console.log(task);
+        request.post({
+          url: [asanaUrl,'/tasks/',task.id,'/stories'].join(''),
+          auth: {
+            'user': credentials.key,
+            'pass': '',
+            'sendImmediately': true
+          },
+          form: {
+            text: comment.notes()
+          }
+        }, function(err, resp, body) {
+          console.log(err);
+          console.log(body);
+          var response = JSON.parse(body);
+          if ('errors' in response) {
+            res.status(501).send(JSON.stringify(response.errors));
+          } else {
+            res.status(201).send('Created comment');
+          }
+        });
+      }
+    });
+  },
+  findTask: function(name, callback) {
     request.get({
       url: [asanaUrl,'/projects/',credentials.asanaProject,'/tasks'].join(''),
       auth: {
@@ -103,45 +134,20 @@ var asana = {
       var tasks = JSON.parse(body);
       var task;
       if ('errors' in tasks) {
-        res.status(501).send(JSON.stringify(tasks.errors));
+        callback(task, JSON.stringify(tasks.errors));
       } else {
         for (var i=0; i<tasks.data.length; i++) {
           var val = tasks.data[i];
           console.log(val);
-          // if (val.name===comment.title) {
-          if (val.name==='Pull request: This is a test. Please ignore.') {
+          if (val.name===name) {
             task = val;
             break;
           }
         }
-        if (task) {
-          //add comment to task
-          console.log(task);
-          request.post({
-            url: [asanaUrl,'/tasks/',task.id,'/stories'].join(''),
-            auth: {
-              'user': credentials.key,
-              'pass': '',
-              'sendImmediately': true
-            },
-            form: {
-              text: comment.notes()
-            }
-          }, function(err, resp, body) {
-            console.log(err);
-            console.log(body);
-            var response = JSON.parse(body);
-            if ('errors' in response) {
-              res.status(501).send(JSON.stringify(response.errors));
-            } else {
-              res.status(201).send('Created comment');
-            }
-          });
-        } else {
-          res.status(501).send('Could not find task associated with pull request');
-        }
+        callback(task);
       }
     });
+
   }
 };
 
