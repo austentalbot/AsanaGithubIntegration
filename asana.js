@@ -58,7 +58,8 @@ var asana = {
         name: pull.title,
         workspace: credentials.asanaWorkspace,
         projects: [credentials.asanaProject],
-        notes: pull.notes()
+        notes: pull.notes(),
+        followers: [credentials.ghToAsana[pull.creator] || credentials.defaultAssignee]
       }
     }, function(err, resp, body) {
       console.log(err);
