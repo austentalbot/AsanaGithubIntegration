@@ -40,7 +40,7 @@ var asana = {
           this.url
         ].join(' ');
       },
-      title: [action.issue.title, action.issue.number].join(' '),
+      title: [action.issue.title, action.issue.id].join(' '),
       url: action.issue.pull_request.html_url
     }
     request.post({
@@ -74,21 +74,21 @@ var asana = {
   createComment: function(action, res) {
     //pull out relevant info from comment
     var comment = {
-      author: action.pull_request.user.login,
-      creationDate: moment(action.pull_request.created_at)
+      author: action.comment.user.login,
+      creationDate: moment(action.comment.created_at)
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
       notes: function() {
         return [
           'Comment:\n',
-          action.pull_request.body,
+          action.comment.body,
           '\n\nBy:',
           this.author,
           '\nDate:',
           this.creationDate
         ].join(' ');
       },
-      title: [action.pull_request.title, action.pull_request.number].join(' '),
+      title: [action.pull_request.title, action.pull_request.id].join(' '),
       url: action.pull_request.html_url
     };
     //find associated task id by task name
