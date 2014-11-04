@@ -23,6 +23,7 @@ app.get('/test', function(req, res){
 
 app.post('/luna-ui', function(req, res) {
   if (req.body.action === 'created') {
+    console.log(req.body);
     asana.createTask(req.body, res);
   } else {
     console.log(req.body);
