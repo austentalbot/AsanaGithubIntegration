@@ -22,12 +22,16 @@ app.get('/test', function(req, res){
 });
 
 app.post('/luna-ui/pull', function(req, res) {
-  if (req.body.action === 'created') {
+  if (req.body.action === 'opened') {
     console.log(req.body);
     asana.createTask(req.body, res);
+  } else if (req.body.action === 'closed') {
+    console.log(req.body);
+    //close pull request
+    res.status(200).send('close pull');
   } else {
     console.log(req.body);
-    res.status(501).send('at the moment, only pull requests are supported by asana-gh integration');
+    res.status(501).send('only opening and closing pull requests is supported');
   }
 });
 
