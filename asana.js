@@ -22,7 +22,6 @@ console.log(credentials);
 
 var asana = {
   createTask: function(action, res) {
-    // var action = JSON.parse(req);
     var pull = {
       assignee: action.issue.assignee,
       creationDate: moment(action.issue.created_at).tz("America/Los_Angeles").format('MMMM Do YYYY, h:mm:ss a'),
