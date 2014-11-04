@@ -41,7 +41,7 @@ var asana = {
         ].join(' ');
       },
       title: [action.pull_request.title, action.pull_request.id].join(' '),
-      url: action.pull_request.pull_request.html_url
+      url: action.pull_request.html_url
     }
     request.post({
       url: asanaUrl + '/tasks',
