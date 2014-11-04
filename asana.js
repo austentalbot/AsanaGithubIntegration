@@ -19,6 +19,8 @@ if (process.env.PORT===undefined) {
 }
 
 console.log(credentials);
+console.log('ghtoasana', ghToAsana);
+console.log('type', typeof(ghToAsana));
 
 var asana = {
   createTask: function(action, res) {
@@ -43,6 +45,7 @@ var asana = {
       title: [action.pull_request.title, action.pull_request.id].join(' '),
       url: action.pull_request.html_url
     }
+    console.log('CREATOR': credentials.ghToAsana[pull.creator]);
     request.post({
       url: asanaUrl + '/tasks',
       auth: {
@@ -59,7 +62,7 @@ var asana = {
         workspace: credentials.asanaWorkspace,
         projects: [credentials.asanaProject],
         notes: pull.notes(),
-        followers: [credentials.ghToAsana[pull.creator] || credentials.defaultAssignee]
+        followers: [credentials.ghToAsana[pull.creator]]
       }
     }, function(err, resp, body) {
       console.log(err);
