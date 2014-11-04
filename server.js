@@ -21,7 +21,7 @@ app.get('/test', function(req, res){
   asana.createComment(test, res);
 });
 
-app.post('/luna-ui', function(req, res) {
+app.post('/luna-ui/pull', function(req, res) {
   if (req.body.action === 'created') {
     console.log(req.body);
     asana.createTask(req.body, res);
@@ -29,6 +29,11 @@ app.post('/luna-ui', function(req, res) {
     console.log(req.body);
     res.status(501).send('at the moment, only pull requests are supported by asana-gh integration');
   }
+});
+
+app.post('/luna-ui/comment', function(req, res) {
+    console.log(req.body);
+    res.status(200).send('comment');
 });
 
 var server = app.listen(port, function(){
