@@ -60,7 +60,7 @@ var createTask = function(action, res) {
       'sendImmediately': true
     },
     form: {
-      assignee: ghToAsana[pull.assignee] || ghToAsana[pull.creator] || credentials.defaultAssignee,
+      assignee: credentials.ghToAsana[pull.assignee] || credentials.ghToAsana[pull.creator] || credentials.defaultAssignee,
       name: pull.name,
       workspace: credentials.asanaWorkspace,
       project: credentials.asanaProject,
