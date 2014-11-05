@@ -27,7 +27,7 @@ var asana = {
       date: moment(action.pull_request.updated_at)
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
-      title: [action.pull_request.title, action.pull_request.id].join(' ')
+      title: [action.pull_request.title, action.pull_request.number].join(' ')
     };
     this.findTask(assignment.title, function(task, err) {
       if (!task) {
@@ -79,7 +79,7 @@ var asana = {
           this.url
         ].join(' ');
       },
-      title: [action.pull_request.title, action.pull_request.id].join(' '),
+      title: [action.pull_request.title, action.pull_request.number].join(' '),
       url: action.pull_request.html_url
     }
     request.post({
@@ -128,8 +128,8 @@ var asana = {
           this.creationDate
         ].join(' ');
       },
-      title: [action.pull_request.title, action.pull_request.id].join(' '),
-      url: action.pull_request.html_url
+      title: [action.issue.title, action.isse.number].join(' '),
+      url: action.issue.html_url
     };
     //find associated task id by task name
     // this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
