@@ -27,11 +27,38 @@ var asana = {
       date: moment(action.pull_request.updated_at)
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
-      title: [action.pull_request.title, action.pull_request.id].join(' ').
+      title: [action.pull_request.title, action.pull_request.id].join(' ')
     };
+    this.findTask(assignment.title, function(task, err) {
+      if (!task) {
+        res.status(501).send(err || 'Could not find task associated with pull request');
+      } else {
+        console.log(task);
+        request.put({
+          url: [asanaUrl,'/tasks/',task.id].join(''),
+          auth: {
+            'user': credentials.key,
+            'pass': '',
+            'sendImmediately': true
+          },
+          form: {
+            assignee: credentials.ghToAsana[assignment.assignee]
+          }
+        }, function(err, resp, body) {
+          console.log(err);
+          console.log(body);
+          var response = JSON.parse(body);
+          if ('errors' in response) {
+            res.status(501).send(JSON.stringify(response.errors));
+          } else {
+            res.status(201).send('Created comment');
+          }
+        });
+      }
+    });
   },
   closePullComment: function() {
-
+    return;
   },
   createTask: function(action, res) {
     var pull = {
@@ -105,8 +132,8 @@ var asana = {
       url: action.pull_request.html_url
     };
     //find associated task id by task name
-    // this.findTask(comment.title, function(task, err) {
-    this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
+    // this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
+    this.findTask(comment.title, function(task, err) {
       if (!task) {
         res.status(501).send(err || 'Could not find task associated with pull request');
       } else {
