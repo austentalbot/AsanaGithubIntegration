@@ -21,6 +21,18 @@ if (process.env.PORT===undefined) {
 console.log(credentials);
 
 var asana = {
+  assignPull: function(action, res) {
+    var assignment = {
+      assignee: action.pull_request.assignee,
+      date: moment(action.pull_request.updated_at)
+        .tz("America/Los_Angeles")
+        .format('MMMM Do YYYY, h:mm:ss a'),
+      title: [action.pull_request.title, action.pull_request.id].join(' ').
+    };
+  },
+  closePullComment: function() {
+
+  },
   createTask: function(action, res) {
     var pull = {
       assignee: action.pull_request.assignee,
@@ -43,7 +55,6 @@ var asana = {
       title: [action.pull_request.title, action.pull_request.id].join(' '),
       url: action.pull_request.html_url
     }
-    console.log('CREATOR', credentials.ghToAsana[pull.creator]);
     request.post({
       url: asanaUrl + '/tasks',
       auth: {
