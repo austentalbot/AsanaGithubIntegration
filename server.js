@@ -40,8 +40,8 @@ app.post('/luna-ui/pull', function(req, res) {
 });
 
 app.post('/luna-ui/comment', function(req, res) {
-    console.log(req.body);
-    res.status(200).send('comment');
+  console.log(req.body);
+  asana.createComment(req.body, res);
 });
 
 var server = app.listen(port, function(){
