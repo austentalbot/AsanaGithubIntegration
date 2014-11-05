@@ -59,7 +59,7 @@ var asana = {
   closePullComment: function(action, res) {
     var close = {
       closer: action.pull_request.merged_by ? action.pull_request.merged_by.login : 'no one',
-      time: moment(action.pull_request.merged_at || action.pull_request.closed_at)
+      time: moment(action.pull_request.merged_at || action.pull_request.closed_atg)
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
       notes: function() {
@@ -70,8 +70,7 @@ var asana = {
           this.time
         ].join(' ');
       },
-      title: [action.pull_request.title, action.pull_request.number].join(' '),
-      url: action.issue.html_url
+      title: [action.pull_request.title, action.pull_request.number].join(' ')
     };
     //find associated task id by task name
     this.findTask(close.title, function(task, err) {
