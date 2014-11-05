@@ -26,8 +26,8 @@ app.post('/luna-ui/pull', function(req, res) {
     console.log(req.body);
     asana.createTask(req.body, res);
   } else if (req.body.action === 'assigned') {
-
-    res.status(200).send('assign pull');
+    console.log(req.body);
+    asana.assignPull(req.body, res);
   } else if (req.body.action === 'closed') {
     console.log(req.body);
     //close pull request
