@@ -128,7 +128,7 @@ var asana = {
           this.creationDate
         ].join(' ');
       },
-      title: [action.issue.title, action.isse.number].join(' '),
+      title: [action.issue.title, action.issue.number].join(' '),
       url: action.issue.html_url
     };
     //find associated task id by task name
