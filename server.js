@@ -40,7 +40,11 @@ app.post('/luna-ui/pull', function(req, res) {
 
 app.post('/luna-ui/comment', function(req, res) {
   console.log(req.body);
-  asana.createComment(req.body, res);
+  if ('issue' in req.body) {
+    asana.createIssueComment(req.body, res);
+  } else {
+    asana.createPullComment(req.body, res);
+  }
 });
 
 var server = app.listen(port, function(){

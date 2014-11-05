@@ -3,7 +3,6 @@ var moment = require('moment-timezone');
 
 var asanaUrl = 'https://app.asana.com/api/1.0'
 
-
 //load credentials locally or from host
 var credentials = {};
 if (process.env.PORT===undefined) {
@@ -156,7 +155,7 @@ var asana = {
       }
     });
   },
-  createComment: function(action, res) {
+  createIssueComment: function(action, res) {
     //pull out relevant info from comment
     var comment = {
       author: action.comment.user.login,
@@ -175,6 +174,57 @@ var asana = {
       },
       title: [action.issue.title, action.issue.number].join(' '),
       url: action.issue.html_url
+    };
+    //find associated task id by task name
+    // this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
+    this.findTask(comment.title, function(task, err) {
+      if (!task) {
+        res.status(501).send(err || 'Could not find task associated with pull request');
+      } else {
+        //add comment to task
+        console.log(task);
+        request.post({
+          url: [asanaUrl,'/tasks/',task.id,'/stories'].join(''),
+          auth: {
+            'user': credentials.key,
+            'pass': '',
+            'sendImmediately': true
+          },
+          form: {
+            text: comment.notes()
+          }
+        }, function(err, resp, body) {
+          console.log(err);
+          console.log(body);
+          var response = JSON.parse(body);
+          if ('errors' in response) {
+            res.status(501).send(JSON.stringify(response.errors));
+          } else {
+            res.status(201).send('Created comment');
+          }
+        });
+      }
+    });
+  },
+  createPullComment: function(action, res) {
+    //pull out relevant info from comment
+    var comment = {
+      author: action.comment.user.login,
+      creationDate: moment(action.comment.created_at)
+        .tz("America/Los_Angeles")
+        .format('MMMM Do YYYY, h:mm:ss a'),
+      notes: function() {
+        return [
+          '\nComment:\n',
+          action.comment.body,
+          '\n\nBy:',
+          this.author,
+          '\nDate:',
+          this.creationDate
+        ].join(' ');
+      },
+      title: [action.pull_request.title, action.pull_request.number].join(' '),
+      url: action.pull_request.html_url
     };
     //find associated task id by task name
     // this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
@@ -232,7 +282,6 @@ var asana = {
         callback(task);
       }
     });
-
   }
 };
 
