@@ -23,7 +23,7 @@ console.log(credentials);
 var asana = {
   assignPull: function(action, res) {
     var assignment = {
-      assignee: action.pull_request.assignee,
+      assignee: action.pull_request.assignee.login,
       date: moment(action.pull_request.updated_at)
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
