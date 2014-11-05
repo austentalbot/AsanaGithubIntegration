@@ -30,7 +30,6 @@ app.post('/luna-ui/pull', function(req, res) {
     asana.assignPull(req.body, res);
   } else if (req.body.action === 'closed') {
     console.log(req.body);
-    // res.status(200).send('close pull');
     asana.closePullComment(req.body, res);
   } else {
     console.log(req.body);

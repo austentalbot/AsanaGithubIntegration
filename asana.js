@@ -58,8 +58,8 @@ var asana = {
   },
   closePullComment: function(action, res) {
     var close = {
-      closer: action.pull_request.merged_by.login,
-      time: moment(action.pull_request.merged_at)
+      closer: action.pull_request.merged_by ? action.pull_request.merged_by.login : 'no one',
+      time: moment(action.pull_request.merged_at || action.pull_request.closed_at)
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
       notes: function() {
@@ -74,7 +74,6 @@ var asana = {
       url: action.issue.html_url
     };
     //find associated task id by task name
-    // this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
     this.findTask(close.title, function(task, err) {
       if (!task) {
         res.status(501).send(err || 'Could not find task associated with pull request');
