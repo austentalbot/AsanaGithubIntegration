@@ -56,7 +56,7 @@ var asana = {
       }
     });
   },
-  closePullComment: function() {
+  closePullComment: function(action, res) {
     var close = {
       closer: action.pull_request.merged_by.login,
       time: moment(action.pull_request.merged_at)
