@@ -51,7 +51,7 @@ var asana = {
           if ('errors' in response) {
             res.status(501).send(JSON.stringify(response.errors));
           } else {
-            res.status(201).send('Created comment');
+            res.status(201).send('Assigned task');
           }
         });
       }
