@@ -87,7 +87,7 @@ var asana = {
             'sendImmediately': true
           },
           form: {
-            text: comment.notes()
+            text: close.notes()
           }
         }, function(err, resp, body) {
           console.log(err);
