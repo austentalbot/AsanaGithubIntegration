@@ -23,6 +23,12 @@
     "express": "^4.10.1",
     "moment-timezone": "^0.2.4",
     "redis": "^0.12.1",
-    "request": "^2.47.0"
+    "request": "^2.47.0",
+    "vinyl-source-stream": "^1.0.0"
+  },
+  "devDependencies": {
+    "browserify": "^6.3.2",
+    "gulp": "^3.8.10",
+    "watchify": "^2.1.1"
   }
 }
