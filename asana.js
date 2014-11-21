@@ -13,15 +13,18 @@ if (process.env.PORT===undefined) {
     defaultAssignee: process.env['defaultAssignee'],
     asanaWorkspace: process.env['asanaWorkspace'],
     asanaProject: process.env['asanaProject'],
-    ghToAsana: JSON.parse(process.env['ghToAsana'])
+    ghToAsana: JSON.parse(process.env['ghToAsana']),
+    redisHost: process.env['redisHost'],
+    redisPort: process.env['redisPort'],
+    redisAuth: process.env['redisAuth']
   };
 }
 
 console.log(credentials);
 
-// var redis = require('redis');
-// var client = redis.createClient(credentials.redisPort, credentials.redisHost);
-// client.auth(credentials.redisAuth);
+var redis = require('redis');
+var client = redis.createClient(credentials.redisPort, credentials.redisHost);
+client.auth(credentials.redisAuth);
 
 // console.log('testing');
 // client.get('austentalbot', function(err, reply) {
@@ -239,9 +242,13 @@ var asana = {
           if ('errors' in response) {
             res.status(501).send(JSON.stringify(response.errors));
           } else {
-            // addFollowers: function(follower, task, responseText, res) {
-            that.addFollowers([credentials.ghToAsana[comment.author]], task, 'Created comment', res);
-            // res.status(201).send('Created comment');
+            client.get(comment.author, function(err, asanaId) {
+              if (err) {
+                res.status(501).send('Assignee not in database');   
+                return;             
+              }
+              that.addFollowers([asanaId], task, 'Created comment', res);
+            });
           }
         });
       }
@@ -294,8 +301,13 @@ var asana = {
           if ('errors' in response) {
             res.status(501).send(JSON.stringify(response.errors));
           } else {
-            that.addFollowers([credentials.ghToAsana[comment.author]], task, 'Created comment', res);
-            // res.status(201).send('Created comment');
+            client.get(comment.author, function(err, asanaId) {
+              if (err) {
+                res.status(501).send('Assignee not in database');   
+                return;             
+              }
+              that.addFollowers([asanaId], task, 'Created comment', res);
+            });
           }
         });
       }
