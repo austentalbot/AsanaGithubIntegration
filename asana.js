@@ -20,6 +20,29 @@ if (process.env.PORT===undefined) {
 console.log(credentials);
 
 var asana = {
+  addFollowers: function(followers, task, responseText, res) {
+    ///tasks/task-id/addFollowers
+    request.post({
+      url: [asanaUrl,'/tasks/',task.id,'/addFollowers'].join(''),
+      auth: {
+        'user': credentials.key,
+        'pass': '',
+        'sendImmediately': true
+      },
+      form: {
+        followers: followers
+      }
+    }, function(err, resp, body) {
+      console.log(err);
+      console.log(body);
+      var response = JSON.parse(body);
+      if ('errors' in response) {
+        res.status(501).send([responseText, ' but did not add follower/n', JSON.stringify(response.errors)].join(''));
+      } else {
+        res.status(201).send(responseText + ' and added follower');
+      }
+    });
+  },
   assignPull: function(req, res) {
     var action = req.body;
     var assignment = {
@@ -202,7 +225,9 @@ var asana = {
           if ('errors' in response) {
             res.status(501).send(JSON.stringify(response.errors));
           } else {
-            res.status(201).send('Created comment');
+            // addFollowers: function(follower, task, responseText, res) {
+            this.addFollowers([credentials.ghToAsana[comment.author]], task, 'Created comment', res);
+            // res.status(201).send('Created comment');
           }
         });
       }
@@ -254,7 +279,8 @@ var asana = {
           if ('errors' in response) {
             res.status(501).send(JSON.stringify(response.errors));
           } else {
-            res.status(201).send('Created comment');
+            this.addFollowers([credentials.ghToAsana[comment.author]], task, 'Created comment', res);
+            // res.status(201).send('Created comment');
           }
         });
       }
