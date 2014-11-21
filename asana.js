@@ -20,7 +20,8 @@ if (process.env.PORT===undefined) {
 console.log(credentials);
 
 var asana = {
-  assignPull: function(action, res) {
+  assignPull: function(req, res) {
+    var action = req.body;
     var assignment = {
       assignee: action.pull_request.assignee.login,
       date: moment(action.pull_request.updated_at)
@@ -56,7 +57,8 @@ var asana = {
       }
     });
   },
-  closePullComment: function(action, res) {
+  closePullComment: function(req, res) {
+    var action = req.body;
     var close = {
       closer: action.pull_request.merged_by ? action.pull_request.merged_by.login : 'no one',
       time: moment(action.pull_request.merged_at || action.pull_request.closed_atg)
@@ -102,7 +104,8 @@ var asana = {
       }
     });
   },
-  createTask: function(action, res) {
+  createTask: function(req, res) {
+    var action = req.body;
     var pull = {
       assignee: action.pull_request.assignee,
       creationDate: moment(action.pull_request.created_at)
@@ -138,7 +141,7 @@ var asana = {
           credentials.defaultAssignee,
         name: pull.title,
         workspace: credentials.asanaWorkspace,
-        projects: [credentials.asanaProject],
+        projects: [req.params.project],
         notes: pull.notes(),
         followers: [credentials.ghToAsana[pull.creator]]
       }
@@ -153,7 +156,8 @@ var asana = {
       }
     });
   },
-  createIssueComment: function(action, res) {
+  createIssueComment: function(req, res) {
+    var action = req.body;
     //pull out relevant info from comment
     var comment = {
       author: action.comment.user.login,
@@ -204,7 +208,8 @@ var asana = {
       }
     });
   },
-  createPullComment: function(action, res) {
+  createPullComment: function(req, res) {
+    var action = req.body
     //pull out relevant info from comment
     var comment = {
       author: action.comment.user.login,
@@ -257,7 +262,7 @@ var asana = {
   },
   findTask: function(name, callback) {
     request.get({
-      url: [asanaUrl,'/projects/',credentials.asanaProject,'/tasks'].join(''),
+      url: [asanaUrl,'/projects/',req.params.project,'/tasks'].join(''),
       auth: {
         'user': credentials.key,
         'pass': '',

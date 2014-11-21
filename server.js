@@ -21,16 +21,32 @@ app.get('/test', function(req, res){
   asana.createComment(test, res);
 });
 
+app.post('/pull/:project', function(req, res) {
+  if (req.body.action === 'opened') {
+    console.log(req.body);
+    asana.createTask(req, res);
+  } else if (req.body.action === 'assigned') {
+    console.log(req.body);
+    asana.assignPull(req, res);
+  } else if (req.body.action === 'closed') {
+    console.log(req.body);
+    asana.closePullComment(req, res);
+  } else {
+    console.log(req.body);
+    res.status(501).send('only opening and closing pull requests is supported');
+  }
+});
+
 app.post('/luna-ui/pull', function(req, res) {
   if (req.body.action === 'opened') {
     console.log(req.body);
-    asana.createTask(req.body, res);
+    asana.createTask(req, res);
   } else if (req.body.action === 'assigned') {
     console.log(req.body);
-    asana.assignPull(req.body, res);
+    asana.assignPull(req, res);
   } else if (req.body.action === 'closed') {
     console.log(req.body);
-    asana.closePullComment(req.body, res);
+    asana.closePullComment(req, res);
   } else {
     console.log(req.body);
     res.status(501).send('only opening and closing pull requests is supported');
@@ -40,9 +56,9 @@ app.post('/luna-ui/pull', function(req, res) {
 app.post('/luna-ui/comment', function(req, res) {
   console.log(req.body);
   if ('issue' in req.body) {
-    asana.createIssueComment(req.body, res);
+    asana.createIssueComment(req, res);
   } else {
-    asana.createPullComment(req.body, res);
+    asana.createPullComment(req, res);
   }
 });
 
