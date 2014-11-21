@@ -22,8 +22,10 @@
     "cors": "^2.5.0",
     "express": "^4.10.1",
     "moment-timezone": "^0.2.4",
+    "react": "^0.12.1",
     "redis": "^0.12.1",
     "request": "^2.47.0",
+    "style-guide": "git+ssh://git@github.com:Asana/style-guide.git#master",
     "vinyl-source-stream": "^1.0.0"
   },
   "devDependencies": {
