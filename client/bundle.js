@@ -1,26 +1,52 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./client/app.js":[function(require,module,exports){
+var reqwest = require('reqwest');
+
 var React = require('react');
 window.React = React;
-
 var r = React.createElement;
 
 React.render(r('div', {
   children: [
-    r('div', {}, 'Github handle:'),
-    r('input', {
-      type: 'text'
-    }),
+    r('h1', {}, 'Asana-github integration'),
     r('div', {}, 'Asana id:'),
     r('input', {
-      type: 'text'
+      type: 'text',
+      id: 'asanaInput'
+    }),
+    r('div', {}, 'Github handle:'),
+    r('input', {
+      type: 'text',
+      id: 'githubInput'
     }),
     r('button', {
-      className: 'button'
+      className: 'button button--sm',
+      onClick: function() {
+        var asana = document.getElementById('asanaInput').value;
+        var github = document.getElementById('githubInput').value;
+        if (!asana || !github) {
+          console.log('You must fill out both fields');
+          return;
+        }
+        reqwest({
+          url: 'http://127.0.0.1:4545/addUser',
+          method: 'post',
+          data: {
+            github: github,
+            asana: asana
+          },
+          error: function(err) {
+            console.log(err);
+          },
+          success: function (resp) {
+            console.log(resp);
+          }
+        });
+      }
     }, 'Submit')
   ]
 }), document.getElementById('react'));
 
-},{"react":148}],2:[function(require,module,exports){
+},{"react":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/react.js","reqwest":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/reqwest/reqwest.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -108,7 +134,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],3:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/AutoFocusMixin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -135,7 +161,7 @@ var AutoFocusMixin = {
 
 module.exports = AutoFocusMixin;
 
-},{"./focusNode":113}],4:[function(require,module,exports){
+},{"./focusNode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/focusNode.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/BeforeInputEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -357,7 +383,7 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":17,"./EventPropagators":22,"./ExecutionEnvironment":23,"./SyntheticInputEvent":91,"./keyOf":135}],5:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./SyntheticInputEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticInputEvent.js","./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CSSProperty.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -473,7 +499,7 @@ var CSSProperty = {
 
 module.exports = CSSProperty;
 
-},{}],6:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CSSPropertyOperations.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -608,7 +634,7 @@ var CSSPropertyOperations = {
 module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./CSSProperty":5,"./ExecutionEnvironment":23,"./camelizeStyleName":102,"./dangerousStyleValue":107,"./hyphenateStyleName":126,"./memoizeStringOnly":137,"./warning":147,"_process":2}],7:[function(require,module,exports){
+},{"./CSSProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CSSProperty.js","./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./camelizeStyleName":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/camelizeStyleName.js","./dangerousStyleValue":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/dangerousStyleValue.js","./hyphenateStyleName":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/hyphenateStyleName.js","./memoizeStringOnly":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/memoizeStringOnly.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CallbackQueue.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -708,7 +734,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./PooledClass":29,"./invariant":128,"_process":2}],8:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ChangeEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -1090,7 +1116,7 @@ var ChangeEventPlugin = {
 
 module.exports = ChangeEventPlugin;
 
-},{"./EventConstants":17,"./EventPluginHub":19,"./EventPropagators":22,"./ExecutionEnvironment":23,"./ReactUpdates":81,"./SyntheticEvent":89,"./isEventSupported":129,"./isTextInputElement":131,"./keyOf":135}],9:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginHub.js","./EventPropagators":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js","./SyntheticEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticEvent.js","./isEventSupported":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isEventSupported.js","./isTextInputElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isTextInputElement.js","./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ClientReactRootIndex.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -1115,7 +1141,7 @@ var ClientReactRootIndex = {
 
 module.exports = ClientReactRootIndex;
 
-},{}],10:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CompositionEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -1374,7 +1400,7 @@ var CompositionEventPlugin = {
 
 module.exports = CompositionEventPlugin;
 
-},{"./EventConstants":17,"./EventPropagators":22,"./ExecutionEnvironment":23,"./ReactInputSelection":61,"./SyntheticCompositionEvent":87,"./getTextContentAccessor":123,"./keyOf":135}],11:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPropagators.js","./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./ReactInputSelection":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInputSelection.js","./SyntheticCompositionEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticCompositionEvent.js","./getTextContentAccessor":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getTextContentAccessor.js","./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMChildrenOperations.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -1549,7 +1575,7 @@ var DOMChildrenOperations = {
 module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
-},{"./Danger":14,"./ReactMultiChildUpdateTypes":67,"./getTextContentAccessor":123,"./invariant":128,"_process":2}],12:[function(require,module,exports){
+},{"./Danger":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Danger.js","./ReactMultiChildUpdateTypes":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./getTextContentAccessor":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getTextContentAccessor.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMProperty.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -1848,7 +1874,7 @@ var DOMProperty = {
 module.exports = DOMProperty;
 
 }).call(this,require('_process'))
-},{"./invariant":128,"_process":2}],13:[function(require,module,exports){
+},{"./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMPropertyOperations.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -2045,7 +2071,7 @@ var DOMPropertyOperations = {
 module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":12,"./escapeTextForBrowser":111,"./memoizeStringOnly":137,"./warning":147,"_process":2}],14:[function(require,module,exports){
+},{"./DOMProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMProperty.js","./escapeTextForBrowser":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/escapeTextForBrowser.js","./memoizeStringOnly":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/memoizeStringOnly.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Danger.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -2231,7 +2257,7 @@ var Danger = {
 module.exports = Danger;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":23,"./createNodesFromMarkup":106,"./emptyFunction":109,"./getMarkupWrap":120,"./invariant":128,"_process":2}],15:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./createNodesFromMarkup":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/createNodesFromMarkup.js","./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js","./getMarkupWrap":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getMarkupWrap.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DefaultEventPluginOrder.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -2271,7 +2297,7 @@ var DefaultEventPluginOrder = [
 
 module.exports = DefaultEventPluginOrder;
 
-},{"./keyOf":135}],16:[function(require,module,exports){
+},{"./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EnterLeaveEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -2411,7 +2437,7 @@ var EnterLeaveEventPlugin = {
 
 module.exports = EnterLeaveEventPlugin;
 
-},{"./EventConstants":17,"./EventPropagators":22,"./ReactMount":65,"./SyntheticMouseEvent":93,"./keyOf":135}],17:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPropagators.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./SyntheticMouseEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticMouseEvent.js","./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -2483,7 +2509,7 @@ var EventConstants = {
 
 module.exports = EventConstants;
 
-},{"./keyMirror":134}],18:[function(require,module,exports){
+},{"./keyMirror":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyMirror.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventListener.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014 Facebook, Inc.
@@ -2573,7 +2599,7 @@ var EventListener = {
 module.exports = EventListener;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":109,"_process":2}],19:[function(require,module,exports){
+},{"./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginHub.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -2849,7 +2875,7 @@ var EventPluginHub = {
 module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":20,"./EventPluginUtils":21,"./accumulateInto":99,"./forEachAccumulated":114,"./invariant":128,"_process":2}],20:[function(require,module,exports){
+},{"./EventPluginRegistry":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginRegistry.js","./EventPluginUtils":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginUtils.js","./accumulateInto":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/forEachAccumulated.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginRegistry.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -3129,7 +3155,7 @@ var EventPluginRegistry = {
 module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
-},{"./invariant":128,"_process":2}],21:[function(require,module,exports){
+},{"./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginUtils.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -3350,7 +3376,7 @@ var EventPluginUtils = {
 module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
-},{"./EventConstants":17,"./invariant":128,"_process":2}],22:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPropagators.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -3492,7 +3518,7 @@ var EventPropagators = {
 module.exports = EventPropagators;
 
 }).call(this,require('_process'))
-},{"./EventConstants":17,"./EventPluginHub":19,"./accumulateInto":99,"./forEachAccumulated":114,"_process":2}],23:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginHub.js","./accumulateInto":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/forEachAccumulated.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -3537,7 +3563,7 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}],24:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/HTMLDOMPropertyConfig.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -3723,7 +3749,7 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":12,"./ExecutionEnvironment":23}],25:[function(require,module,exports){
+},{"./DOMProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMProperty.js","./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/LinkedValueUtils.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -3879,7 +3905,7 @@ var LinkedValueUtils = {
 module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
-},{"./ReactPropTypes":74,"./invariant":128,"_process":2}],26:[function(require,module,exports){
+},{"./ReactPropTypes":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypes.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/LocalEventTrapMixin.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -3929,7 +3955,7 @@ var LocalEventTrapMixin = {
 module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserEventEmitter":32,"./accumulateInto":99,"./forEachAccumulated":114,"./invariant":128,"_process":2}],27:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserEventEmitter.js","./accumulateInto":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/accumulateInto.js","./forEachAccumulated":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/forEachAccumulated.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/MobileSafariClickEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -3987,7 +4013,7 @@ var MobileSafariClickEventPlugin = {
 
 module.exports = MobileSafariClickEventPlugin;
 
-},{"./EventConstants":17,"./emptyFunction":109}],28:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -4034,7 +4060,7 @@ function assign(target, sources) {
 
 module.exports = assign;
 
-},{}],29:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -4150,7 +4176,7 @@ var PooledClass = {
 module.exports = PooledClass;
 
 }).call(this,require('_process'))
-},{"./invariant":128,"_process":2}],30:[function(require,module,exports){
+},{"./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/React.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -4338,7 +4364,7 @@ React.version = '0.12.1';
 module.exports = React;
 
 }).call(this,require('_process'))
-},{"./DOMPropertyOperations":13,"./EventPluginUtils":21,"./ExecutionEnvironment":23,"./Object.assign":28,"./ReactChildren":33,"./ReactComponent":34,"./ReactCompositeComponent":36,"./ReactContext":37,"./ReactCurrentOwner":38,"./ReactDOM":39,"./ReactDOMComponent":41,"./ReactDefaultInjection":51,"./ReactElement":54,"./ReactElementValidator":55,"./ReactInstanceHandles":62,"./ReactLegacyElement":63,"./ReactMount":65,"./ReactMultiChild":66,"./ReactPerf":70,"./ReactPropTypes":74,"./ReactServerRendering":78,"./ReactTextComponent":80,"./deprecated":108,"./onlyChild":139,"_process":2}],31:[function(require,module,exports){
+},{"./DOMPropertyOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMPropertyOperations.js","./EventPluginUtils":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginUtils.js","./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactChildren":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactChildren.js","./ReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponent.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactContext":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCurrentOwner.js","./ReactDOM":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js","./ReactDOMComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMComponent.js","./ReactDefaultInjection":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDefaultInjection.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElementValidator.js","./ReactInstanceHandles":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInstanceHandles.js","./ReactLegacyElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactLegacyElement.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./ReactPropTypes":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypes.js","./ReactServerRendering":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactServerRendering.js","./ReactTextComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactTextComponent.js","./deprecated":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/deprecated.js","./onlyChild":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/onlyChild.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -4381,7 +4407,7 @@ var ReactBrowserComponentMixin = {
 module.exports = ReactBrowserComponentMixin;
 
 }).call(this,require('_process'))
-},{"./ReactEmptyComponent":56,"./ReactMount":65,"./invariant":128,"_process":2}],32:[function(require,module,exports){
+},{"./ReactEmptyComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEmptyComponent.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserEventEmitter.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -4736,7 +4762,7 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":17,"./EventPluginHub":19,"./EventPluginRegistry":20,"./Object.assign":28,"./ReactEventEmitterMixin":58,"./ViewportMetrics":98,"./isEventSupported":129}],33:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./EventPluginHub":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginHub.js","./EventPluginRegistry":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginRegistry.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactEventEmitterMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEventEmitterMixin.js","./ViewportMetrics":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ViewportMetrics.js","./isEventSupported":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isEventSupported.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactChildren.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -4886,7 +4912,7 @@ var ReactChildren = {
 module.exports = ReactChildren;
 
 }).call(this,require('_process'))
-},{"./PooledClass":29,"./traverseAllChildren":146,"./warning":147,"_process":2}],34:[function(require,module,exports){
+},{"./PooledClass":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js","./traverseAllChildren":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/traverseAllChildren.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -5329,7 +5355,7 @@ var ReactComponent = {
 module.exports = ReactComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./ReactElement":54,"./ReactOwner":69,"./ReactUpdates":81,"./invariant":128,"./keyMirror":134,"_process":2}],35:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactOwner.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./keyMirror":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyMirror.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponentBrowserEnvironment.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -5451,7 +5477,7 @@ var ReactComponentBrowserEnvironment = {
 module.exports = ReactComponentBrowserEnvironment;
 
 }).call(this,require('_process'))
-},{"./ReactDOMIDOperations":43,"./ReactMarkupChecksum":64,"./ReactMount":65,"./ReactPerf":70,"./ReactReconcileTransaction":76,"./getReactRootElementInContainer":122,"./invariant":128,"./setInnerHTML":142,"_process":2}],36:[function(require,module,exports){
+},{"./ReactDOMIDOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMIDOperations.js","./ReactMarkupChecksum":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMarkupChecksum.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./ReactReconcileTransaction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactReconcileTransaction.js","./getReactRootElementInContainer":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getReactRootElementInContainer.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./setInnerHTML":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/setInnerHTML.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -6891,7 +6917,7 @@ var ReactCompositeComponent = {
 module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./ReactComponent":34,"./ReactContext":37,"./ReactCurrentOwner":38,"./ReactElement":54,"./ReactElementValidator":55,"./ReactEmptyComponent":56,"./ReactErrorUtils":57,"./ReactLegacyElement":63,"./ReactOwner":69,"./ReactPerf":70,"./ReactPropTransferer":71,"./ReactPropTypeLocationNames":72,"./ReactPropTypeLocations":73,"./ReactUpdates":81,"./instantiateReactComponent":127,"./invariant":128,"./keyMirror":134,"./keyOf":135,"./mapObject":136,"./monitorCodeUse":138,"./shouldUpdateReactComponent":144,"./warning":147,"_process":2}],37:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponent.js","./ReactContext":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElementValidator.js","./ReactEmptyComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEmptyComponent.js","./ReactErrorUtils":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactErrorUtils.js","./ReactLegacyElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactLegacyElement.js","./ReactOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactOwner.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./ReactPropTransferer":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTransferer.js","./ReactPropTypeLocationNames":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypeLocationNames.js","./ReactPropTypeLocations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypeLocations.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js","./instantiateReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./keyMirror":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyMirror.js","./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js","./mapObject":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/mapObject.js","./monitorCodeUse":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/monitorCodeUse.js","./shouldUpdateReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/shouldUpdateReactComponent.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactContext.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -6953,7 +6979,7 @@ var ReactContext = {
 
 module.exports = ReactContext;
 
-},{"./Object.assign":28}],38:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCurrentOwner.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -6987,7 +7013,7 @@ var ReactCurrentOwner = {
 
 module.exports = ReactCurrentOwner;
 
-},{}],39:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -7170,7 +7196,7 @@ var ReactDOM = mapObject({
 module.exports = ReactDOM;
 
 }).call(this,require('_process'))
-},{"./ReactElement":54,"./ReactElementValidator":55,"./ReactLegacyElement":63,"./mapObject":136,"_process":2}],40:[function(require,module,exports){
+},{"./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactElementValidator":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElementValidator.js","./ReactLegacyElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactLegacyElement.js","./mapObject":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/mapObject.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMButton.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -7235,7 +7261,7 @@ var ReactDOMButton = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMButton;
 
-},{"./AutoFocusMixin":3,"./ReactBrowserComponentMixin":31,"./ReactCompositeComponent":36,"./ReactDOM":39,"./ReactElement":54,"./keyMirror":134}],41:[function(require,module,exports){
+},{"./AutoFocusMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/AutoFocusMixin.js","./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./keyMirror":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyMirror.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -7722,7 +7748,7 @@ assign(
 module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":6,"./DOMProperty":12,"./DOMPropertyOperations":13,"./Object.assign":28,"./ReactBrowserComponentMixin":31,"./ReactBrowserEventEmitter":32,"./ReactComponent":34,"./ReactMount":65,"./ReactMultiChild":66,"./ReactPerf":70,"./escapeTextForBrowser":111,"./invariant":128,"./isEventSupported":129,"./keyOf":135,"./monitorCodeUse":138,"_process":2}],42:[function(require,module,exports){
+},{"./CSSPropertyOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CSSPropertyOperations.js","./DOMProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMProperty.js","./DOMPropertyOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactBrowserEventEmitter":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponent.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./ReactMultiChild":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMultiChild.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./escapeTextForBrowser":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/escapeTextForBrowser.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./isEventSupported":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isEventSupported.js","./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js","./monitorCodeUse":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/monitorCodeUse.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMForm.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -7772,7 +7798,7 @@ var ReactDOMForm = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMForm;
 
-},{"./EventConstants":17,"./LocalEventTrapMixin":26,"./ReactBrowserComponentMixin":31,"./ReactCompositeComponent":36,"./ReactDOM":39,"./ReactElement":54}],43:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./LocalEventTrapMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/LocalEventTrapMixin.js","./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMIDOperations.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -7958,7 +7984,7 @@ var ReactDOMIDOperations = {
 module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
-},{"./CSSPropertyOperations":6,"./DOMChildrenOperations":11,"./DOMPropertyOperations":13,"./ReactMount":65,"./ReactPerf":70,"./invariant":128,"./setInnerHTML":142,"_process":2}],44:[function(require,module,exports){
+},{"./CSSPropertyOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CSSPropertyOperations.js","./DOMChildrenOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMChildrenOperations.js","./DOMPropertyOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMPropertyOperations.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./setInnerHTML":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/setInnerHTML.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMImg.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -8006,7 +8032,7 @@ var ReactDOMImg = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMImg;
 
-},{"./EventConstants":17,"./LocalEventTrapMixin":26,"./ReactBrowserComponentMixin":31,"./ReactCompositeComponent":36,"./ReactDOM":39,"./ReactElement":54}],45:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./LocalEventTrapMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/LocalEventTrapMixin.js","./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMInput.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -8184,7 +8210,7 @@ var ReactDOMInput = ReactCompositeComponent.createClass({
 module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":3,"./DOMPropertyOperations":13,"./LinkedValueUtils":25,"./Object.assign":28,"./ReactBrowserComponentMixin":31,"./ReactCompositeComponent":36,"./ReactDOM":39,"./ReactElement":54,"./ReactMount":65,"./ReactUpdates":81,"./invariant":128,"_process":2}],46:[function(require,module,exports){
+},{"./AutoFocusMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/AutoFocusMixin.js","./DOMPropertyOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMPropertyOperations.js","./LinkedValueUtils":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMOption.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -8237,7 +8263,7 @@ var ReactDOMOption = ReactCompositeComponent.createClass({
 module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
-},{"./ReactBrowserComponentMixin":31,"./ReactCompositeComponent":36,"./ReactDOM":39,"./ReactElement":54,"./warning":147,"_process":2}],47:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMSelect.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -8421,7 +8447,7 @@ var ReactDOMSelect = ReactCompositeComponent.createClass({
 
 module.exports = ReactDOMSelect;
 
-},{"./AutoFocusMixin":3,"./LinkedValueUtils":25,"./Object.assign":28,"./ReactBrowserComponentMixin":31,"./ReactCompositeComponent":36,"./ReactDOM":39,"./ReactElement":54,"./ReactUpdates":81}],48:[function(require,module,exports){
+},{"./AutoFocusMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/AutoFocusMixin.js","./LinkedValueUtils":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMSelection.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -8630,7 +8656,7 @@ var ReactDOMSelection = {
 
 module.exports = ReactDOMSelection;
 
-},{"./ExecutionEnvironment":23,"./getNodeForCharacterOffset":121,"./getTextContentAccessor":123}],49:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./getNodeForCharacterOffset":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getNodeForCharacterOffset.js","./getTextContentAccessor":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getTextContentAccessor.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMTextarea.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -8771,7 +8797,7 @@ var ReactDOMTextarea = ReactCompositeComponent.createClass({
 module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
-},{"./AutoFocusMixin":3,"./DOMPropertyOperations":13,"./LinkedValueUtils":25,"./Object.assign":28,"./ReactBrowserComponentMixin":31,"./ReactCompositeComponent":36,"./ReactDOM":39,"./ReactElement":54,"./ReactUpdates":81,"./invariant":128,"./warning":147,"_process":2}],50:[function(require,module,exports){
+},{"./AutoFocusMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/AutoFocusMixin.js","./DOMPropertyOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMPropertyOperations.js","./LinkedValueUtils":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/LinkedValueUtils.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactDOM":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOM.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDefaultBatchingStrategy.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -8844,7 +8870,7 @@ var ReactDefaultBatchingStrategy = {
 
 module.exports = ReactDefaultBatchingStrategy;
 
-},{"./Object.assign":28,"./ReactUpdates":81,"./Transaction":97,"./emptyFunction":109}],51:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js","./Transaction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Transaction.js","./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDefaultInjection.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -8973,7 +8999,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./BeforeInputEventPlugin":4,"./ChangeEventPlugin":8,"./ClientReactRootIndex":9,"./CompositionEventPlugin":10,"./DefaultEventPluginOrder":15,"./EnterLeaveEventPlugin":16,"./ExecutionEnvironment":23,"./HTMLDOMPropertyConfig":24,"./MobileSafariClickEventPlugin":27,"./ReactBrowserComponentMixin":31,"./ReactComponentBrowserEnvironment":35,"./ReactDOMButton":40,"./ReactDOMComponent":41,"./ReactDOMForm":42,"./ReactDOMImg":44,"./ReactDOMInput":45,"./ReactDOMOption":46,"./ReactDOMSelect":47,"./ReactDOMTextarea":49,"./ReactDefaultBatchingStrategy":50,"./ReactDefaultPerf":52,"./ReactEventListener":59,"./ReactInjection":60,"./ReactInstanceHandles":62,"./ReactMount":65,"./SVGDOMPropertyConfig":82,"./SelectEventPlugin":83,"./ServerReactRootIndex":84,"./SimpleEventPlugin":85,"./createFullPageComponent":105,"_process":2}],52:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/BeforeInputEventPlugin.js","./ChangeEventPlugin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ChangeEventPlugin.js","./ClientReactRootIndex":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ClientReactRootIndex.js","./CompositionEventPlugin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CompositionEventPlugin.js","./DefaultEventPluginOrder":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DefaultEventPluginOrder.js","./EnterLeaveEventPlugin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EnterLeaveEventPlugin.js","./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./HTMLDOMPropertyConfig":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/HTMLDOMPropertyConfig.js","./MobileSafariClickEventPlugin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/MobileSafariClickEventPlugin.js","./ReactBrowserComponentMixin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserComponentMixin.js","./ReactComponentBrowserEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponentBrowserEnvironment.js","./ReactDOMButton":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMButton.js","./ReactDOMComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMComponent.js","./ReactDOMForm":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMForm.js","./ReactDOMImg":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMImg.js","./ReactDOMInput":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMInput.js","./ReactDOMOption":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMOption.js","./ReactDOMSelect":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMSelect.js","./ReactDOMTextarea":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMTextarea.js","./ReactDefaultBatchingStrategy":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDefaultBatchingStrategy.js","./ReactDefaultPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDefaultPerf.js","./ReactEventListener":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEventListener.js","./ReactInjection":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInjection.js","./ReactInstanceHandles":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./SVGDOMPropertyConfig":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SVGDOMPropertyConfig.js","./SelectEventPlugin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SelectEventPlugin.js","./ServerReactRootIndex":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ServerReactRootIndex.js","./SimpleEventPlugin":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SimpleEventPlugin.js","./createFullPageComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/createFullPageComponent.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDefaultPerf.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -9233,7 +9259,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 
-},{"./DOMProperty":12,"./ReactDefaultPerfAnalysis":53,"./ReactMount":65,"./ReactPerf":70,"./performanceNow":141}],53:[function(require,module,exports){
+},{"./DOMProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMProperty.js","./ReactDefaultPerfAnalysis":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDefaultPerfAnalysis.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./performanceNow":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/performanceNow.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDefaultPerfAnalysis.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -9439,7 +9465,7 @@ var ReactDefaultPerfAnalysis = {
 
 module.exports = ReactDefaultPerfAnalysis;
 
-},{"./Object.assign":28}],54:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -9685,7 +9711,7 @@ ReactElement.isValidElement = function(object) {
 module.exports = ReactElement;
 
 }).call(this,require('_process'))
-},{"./ReactContext":37,"./ReactCurrentOwner":38,"./warning":147,"_process":2}],55:[function(require,module,exports){
+},{"./ReactContext":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactContext.js","./ReactCurrentOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCurrentOwner.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElementValidator.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -9953,7 +9979,7 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 
-},{"./ReactCurrentOwner":38,"./ReactElement":54,"./ReactPropTypeLocations":73,"./monitorCodeUse":138}],56:[function(require,module,exports){
+},{"./ReactCurrentOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypeLocations.js","./monitorCodeUse":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/monitorCodeUse.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEmptyComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -10030,7 +10056,7 @@ var ReactEmptyComponent = {
 module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":54,"./invariant":128,"_process":2}],57:[function(require,module,exports){
+},{"./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactErrorUtils.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -10062,7 +10088,7 @@ var ReactErrorUtils = {
 
 module.exports = ReactErrorUtils;
 
-},{}],58:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEventEmitterMixin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -10112,7 +10138,7 @@ var ReactEventEmitterMixin = {
 
 module.exports = ReactEventEmitterMixin;
 
-},{"./EventPluginHub":19}],59:[function(require,module,exports){
+},{"./EventPluginHub":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginHub.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEventListener.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -10296,7 +10322,7 @@ var ReactEventListener = {
 
 module.exports = ReactEventListener;
 
-},{"./EventListener":18,"./ExecutionEnvironment":23,"./Object.assign":28,"./PooledClass":29,"./ReactInstanceHandles":62,"./ReactMount":65,"./ReactUpdates":81,"./getEventTarget":119,"./getUnboundedScrollPosition":124}],60:[function(require,module,exports){
+},{"./EventListener":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventListener.js","./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js","./ReactInstanceHandles":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInstanceHandles.js","./ReactMount":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js","./getEventTarget":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventTarget.js","./getUnboundedScrollPosition":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getUnboundedScrollPosition.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInjection.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -10336,7 +10362,7 @@ var ReactInjection = {
 
 module.exports = ReactInjection;
 
-},{"./DOMProperty":12,"./EventPluginHub":19,"./ReactBrowserEventEmitter":32,"./ReactComponent":34,"./ReactCompositeComponent":36,"./ReactEmptyComponent":56,"./ReactNativeComponent":68,"./ReactPerf":70,"./ReactRootIndex":77,"./ReactUpdates":81}],61:[function(require,module,exports){
+},{"./DOMProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMProperty.js","./EventPluginHub":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginHub.js","./ReactBrowserEventEmitter":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponent.js","./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactEmptyComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEmptyComponent.js","./ReactNativeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactNativeComponent.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./ReactRootIndex":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactRootIndex.js","./ReactUpdates":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInputSelection.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -10472,7 +10498,7 @@ var ReactInputSelection = {
 
 module.exports = ReactInputSelection;
 
-},{"./ReactDOMSelection":48,"./containsNode":103,"./focusNode":113,"./getActiveElement":115}],62:[function(require,module,exports){
+},{"./ReactDOMSelection":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactDOMSelection.js","./containsNode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/containsNode.js","./focusNode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/focusNode.js","./getActiveElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getActiveElement.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInstanceHandles.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -10807,7 +10833,7 @@ var ReactInstanceHandles = {
 module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
-},{"./ReactRootIndex":77,"./invariant":128,"_process":2}],63:[function(require,module,exports){
+},{"./ReactRootIndex":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactRootIndex.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactLegacyElement.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -11054,7 +11080,7 @@ ReactLegacyElementFactory._isLegacyCallWarningEnabled = true;
 module.exports = ReactLegacyElementFactory;
 
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":38,"./invariant":128,"./monitorCodeUse":138,"./warning":147,"_process":2}],64:[function(require,module,exports){
+},{"./ReactCurrentOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCurrentOwner.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./monitorCodeUse":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/monitorCodeUse.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMarkupChecksum.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -11102,7 +11128,7 @@ var ReactMarkupChecksum = {
 
 module.exports = ReactMarkupChecksum;
 
-},{"./adler32":100}],65:[function(require,module,exports){
+},{"./adler32":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/adler32.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMount.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -11800,7 +11826,7 @@ ReactMount.renderComponent = deprecated(
 module.exports = ReactMount;
 
 }).call(this,require('_process'))
-},{"./DOMProperty":12,"./ReactBrowserEventEmitter":32,"./ReactCurrentOwner":38,"./ReactElement":54,"./ReactInstanceHandles":62,"./ReactLegacyElement":63,"./ReactPerf":70,"./containsNode":103,"./deprecated":108,"./getReactRootElementInContainer":122,"./instantiateReactComponent":127,"./invariant":128,"./shouldUpdateReactComponent":144,"./warning":147,"_process":2}],66:[function(require,module,exports){
+},{"./DOMProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMProperty.js","./ReactBrowserEventEmitter":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactCurrentOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCurrentOwner.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInstanceHandles.js","./ReactLegacyElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactLegacyElement.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./containsNode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/containsNode.js","./deprecated":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/deprecated.js","./getReactRootElementInContainer":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getReactRootElementInContainer.js","./instantiateReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./shouldUpdateReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/shouldUpdateReactComponent.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMultiChild.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -12228,7 +12254,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 
-},{"./ReactComponent":34,"./ReactMultiChildUpdateTypes":67,"./flattenChildren":112,"./instantiateReactComponent":127,"./shouldUpdateReactComponent":144}],67:[function(require,module,exports){
+},{"./ReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponent.js","./ReactMultiChildUpdateTypes":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMultiChildUpdateTypes.js","./flattenChildren":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/flattenChildren.js","./instantiateReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/instantiateReactComponent.js","./shouldUpdateReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/shouldUpdateReactComponent.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMultiChildUpdateTypes.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -12261,7 +12287,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 
 module.exports = ReactMultiChildUpdateTypes;
 
-},{"./keyMirror":134}],68:[function(require,module,exports){
+},{"./keyMirror":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyMirror.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactNativeComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -12334,7 +12360,7 @@ var ReactNativeComponent = {
 module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./invariant":128,"_process":2}],69:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactOwner.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -12490,7 +12516,7 @@ var ReactOwner = {
 module.exports = ReactOwner;
 
 }).call(this,require('_process'))
-},{"./emptyObject":110,"./invariant":128,"_process":2}],70:[function(require,module,exports){
+},{"./emptyObject":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyObject.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -12574,7 +12600,7 @@ function _noMeasure(objName, fnName, func) {
 module.exports = ReactPerf;
 
 }).call(this,require('_process'))
-},{"_process":2}],71:[function(require,module,exports){
+},{"_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTransferer.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -12741,7 +12767,7 @@ var ReactPropTransferer = {
 module.exports = ReactPropTransferer;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./emptyFunction":109,"./invariant":128,"./joinClasses":133,"./warning":147,"_process":2}],72:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./joinClasses":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/joinClasses.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypeLocationNames.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -12769,7 +12795,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
-},{"_process":2}],73:[function(require,module,exports){
+},{"_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypeLocations.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -12793,7 +12819,7 @@ var ReactPropTypeLocations = keyMirror({
 
 module.exports = ReactPropTypeLocations;
 
-},{"./keyMirror":134}],74:[function(require,module,exports){
+},{"./keyMirror":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyMirror.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypes.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -13147,7 +13173,7 @@ function getPreciseType(propValue) {
 
 module.exports = ReactPropTypes;
 
-},{"./ReactElement":54,"./ReactPropTypeLocationNames":72,"./deprecated":108,"./emptyFunction":109}],75:[function(require,module,exports){
+},{"./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactPropTypeLocationNames":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPropTypeLocationNames.js","./deprecated":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/deprecated.js","./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPutListenerQueue.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -13203,7 +13229,7 @@ PooledClass.addPoolingTo(ReactPutListenerQueue);
 
 module.exports = ReactPutListenerQueue;
 
-},{"./Object.assign":28,"./PooledClass":29,"./ReactBrowserEventEmitter":32}],76:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js","./ReactBrowserEventEmitter":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserEventEmitter.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactReconcileTransaction.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -13379,7 +13405,7 @@ PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
 
-},{"./CallbackQueue":7,"./Object.assign":28,"./PooledClass":29,"./ReactBrowserEventEmitter":32,"./ReactInputSelection":61,"./ReactPutListenerQueue":75,"./Transaction":97}],77:[function(require,module,exports){
+},{"./CallbackQueue":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js","./ReactBrowserEventEmitter":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactBrowserEventEmitter.js","./ReactInputSelection":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInputSelection.js","./ReactPutListenerQueue":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPutListenerQueue.js","./Transaction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Transaction.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactRootIndex.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -13410,7 +13436,7 @@ var ReactRootIndex = {
 
 module.exports = ReactRootIndex;
 
-},{}],78:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactServerRendering.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -13490,7 +13516,7 @@ module.exports = {
 };
 
 }).call(this,require('_process'))
-},{"./ReactElement":54,"./ReactInstanceHandles":62,"./ReactMarkupChecksum":64,"./ReactServerRenderingTransaction":79,"./instantiateReactComponent":127,"./invariant":128,"_process":2}],79:[function(require,module,exports){
+},{"./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInstanceHandles.js","./ReactMarkupChecksum":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactMarkupChecksum.js","./ReactServerRenderingTransaction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactServerRenderingTransaction.js","./instantiateReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/instantiateReactComponent.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactServerRenderingTransaction.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -13603,7 +13629,7 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":7,"./Object.assign":28,"./PooledClass":29,"./ReactPutListenerQueue":75,"./Transaction":97,"./emptyFunction":109}],80:[function(require,module,exports){
+},{"./CallbackQueue":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js","./ReactPutListenerQueue":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPutListenerQueue.js","./Transaction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Transaction.js","./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactTextComponent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -13709,7 +13735,7 @@ ReactTextComponentFactory.type = ReactTextComponent;
 
 module.exports = ReactTextComponentFactory;
 
-},{"./DOMPropertyOperations":13,"./Object.assign":28,"./ReactComponent":34,"./ReactElement":54,"./escapeTextForBrowser":111}],81:[function(require,module,exports){
+},{"./DOMPropertyOperations":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMPropertyOperations.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./ReactComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactComponent.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./escapeTextForBrowser":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/escapeTextForBrowser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactUpdates.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -13999,7 +14025,7 @@ var ReactUpdates = {
 module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
-},{"./CallbackQueue":7,"./Object.assign":28,"./PooledClass":29,"./ReactCurrentOwner":38,"./ReactPerf":70,"./Transaction":97,"./invariant":128,"./warning":147,"_process":2}],82:[function(require,module,exports){
+},{"./CallbackQueue":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CallbackQueue.js","./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js","./ReactCurrentOwner":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCurrentOwner.js","./ReactPerf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactPerf.js","./Transaction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Transaction.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SVGDOMPropertyConfig.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -14091,7 +14117,7 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":12}],83:[function(require,module,exports){
+},{"./DOMProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/DOMProperty.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SelectEventPlugin.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -14286,7 +14312,7 @@ var SelectEventPlugin = {
 
 module.exports = SelectEventPlugin;
 
-},{"./EventConstants":17,"./EventPropagators":22,"./ReactInputSelection":61,"./SyntheticEvent":89,"./getActiveElement":115,"./isTextInputElement":131,"./keyOf":135,"./shallowEqual":143}],84:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./EventPropagators":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPropagators.js","./ReactInputSelection":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInputSelection.js","./SyntheticEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticEvent.js","./getActiveElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getActiveElement.js","./isTextInputElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isTextInputElement.js","./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js","./shallowEqual":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/shallowEqual.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ServerReactRootIndex.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -14317,7 +14343,7 @@ var ServerReactRootIndex = {
 
 module.exports = ServerReactRootIndex;
 
-},{}],85:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SimpleEventPlugin.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -14745,7 +14771,7 @@ var SimpleEventPlugin = {
 module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
-},{"./EventConstants":17,"./EventPluginUtils":21,"./EventPropagators":22,"./SyntheticClipboardEvent":86,"./SyntheticDragEvent":88,"./SyntheticEvent":89,"./SyntheticFocusEvent":90,"./SyntheticKeyboardEvent":92,"./SyntheticMouseEvent":93,"./SyntheticTouchEvent":94,"./SyntheticUIEvent":95,"./SyntheticWheelEvent":96,"./getEventCharCode":116,"./invariant":128,"./keyOf":135,"./warning":147,"_process":2}],86:[function(require,module,exports){
+},{"./EventConstants":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventConstants.js","./EventPluginUtils":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPluginUtils.js","./EventPropagators":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/EventPropagators.js","./SyntheticClipboardEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticClipboardEvent.js","./SyntheticDragEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticDragEvent.js","./SyntheticEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticEvent.js","./SyntheticFocusEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticFocusEvent.js","./SyntheticKeyboardEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticKeyboardEvent.js","./SyntheticMouseEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticMouseEvent.js","./SyntheticTouchEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticTouchEvent.js","./SyntheticUIEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticUIEvent.js","./SyntheticWheelEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticWheelEvent.js","./getEventCharCode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventCharCode.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","./keyOf":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticClipboardEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -14791,7 +14817,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 module.exports = SyntheticClipboardEvent;
 
 
-},{"./SyntheticEvent":89}],87:[function(require,module,exports){
+},{"./SyntheticEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticEvent.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticCompositionEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -14837,7 +14863,7 @@ SyntheticEvent.augmentClass(
 module.exports = SyntheticCompositionEvent;
 
 
-},{"./SyntheticEvent":89}],88:[function(require,module,exports){
+},{"./SyntheticEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticEvent.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticDragEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -14876,7 +14902,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
 
-},{"./SyntheticMouseEvent":93}],89:[function(require,module,exports){
+},{"./SyntheticMouseEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticMouseEvent.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15034,7 +15060,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.threeArgumentPooler);
 
 module.exports = SyntheticEvent;
 
-},{"./Object.assign":28,"./PooledClass":29,"./emptyFunction":109,"./getEventTarget":119}],90:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./PooledClass":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/PooledClass.js","./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js","./getEventTarget":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventTarget.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticFocusEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15073,7 +15099,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
 
-},{"./SyntheticUIEvent":95}],91:[function(require,module,exports){
+},{"./SyntheticUIEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticUIEvent.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticInputEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -15120,7 +15146,7 @@ SyntheticEvent.augmentClass(
 module.exports = SyntheticInputEvent;
 
 
-},{"./SyntheticEvent":89}],92:[function(require,module,exports){
+},{"./SyntheticEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticEvent.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticKeyboardEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15207,7 +15233,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
 
-},{"./SyntheticUIEvent":95,"./getEventCharCode":116,"./getEventKey":117,"./getEventModifierState":118}],93:[function(require,module,exports){
+},{"./SyntheticUIEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticUIEvent.js","./getEventCharCode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventCharCode.js","./getEventKey":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventKey.js","./getEventModifierState":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventModifierState.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticMouseEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15290,7 +15316,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
 
-},{"./SyntheticUIEvent":95,"./ViewportMetrics":98,"./getEventModifierState":118}],94:[function(require,module,exports){
+},{"./SyntheticUIEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticUIEvent.js","./ViewportMetrics":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ViewportMetrics.js","./getEventModifierState":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventModifierState.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticTouchEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15338,7 +15364,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
 
-},{"./SyntheticUIEvent":95,"./getEventModifierState":118}],95:[function(require,module,exports){
+},{"./SyntheticUIEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticUIEvent.js","./getEventModifierState":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventModifierState.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticUIEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15400,7 +15426,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
 
-},{"./SyntheticEvent":89,"./getEventTarget":119}],96:[function(require,module,exports){
+},{"./SyntheticEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticEvent.js","./getEventTarget":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventTarget.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticWheelEvent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15461,7 +15487,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
 
-},{"./SyntheticMouseEvent":93}],97:[function(require,module,exports){
+},{"./SyntheticMouseEvent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/SyntheticMouseEvent.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Transaction.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -15702,7 +15728,7 @@ var Transaction = {
 module.exports = Transaction;
 
 }).call(this,require('_process'))
-},{"./invariant":128,"_process":2}],98:[function(require,module,exports){
+},{"./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ViewportMetrics.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15734,7 +15760,7 @@ var ViewportMetrics = {
 
 module.exports = ViewportMetrics;
 
-},{"./getUnboundedScrollPosition":124}],99:[function(require,module,exports){
+},{"./getUnboundedScrollPosition":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getUnboundedScrollPosition.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/accumulateInto.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -15800,7 +15826,7 @@ function accumulateInto(current, next) {
 module.exports = accumulateInto;
 
 }).call(this,require('_process'))
-},{"./invariant":128,"_process":2}],100:[function(require,module,exports){
+},{"./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/adler32.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15834,7 +15860,7 @@ function adler32(data) {
 
 module.exports = adler32;
 
-},{}],101:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/camelize.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15866,7 +15892,7 @@ function camelize(string) {
 
 module.exports = camelize;
 
-},{}],102:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/camelizeStyleName.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -15908,7 +15934,7 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":101}],103:[function(require,module,exports){
+},{"./camelize":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/camelize.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/containsNode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -15952,7 +15978,7 @@ function containsNode(outerNode, innerNode) {
 
 module.exports = containsNode;
 
-},{"./isTextNode":132}],104:[function(require,module,exports){
+},{"./isTextNode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isTextNode.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/createArrayFrom.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16038,7 +16064,7 @@ function createArrayFrom(obj) {
 
 module.exports = createArrayFrom;
 
-},{"./toArray":145}],105:[function(require,module,exports){
+},{"./toArray":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/toArray.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/createFullPageComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -16099,7 +16125,7 @@ function createFullPageComponent(tag) {
 module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
-},{"./ReactCompositeComponent":36,"./ReactElement":54,"./invariant":128,"_process":2}],106:[function(require,module,exports){
+},{"./ReactCompositeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactCompositeComponent.js","./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/createNodesFromMarkup.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -16189,7 +16215,7 @@ function createNodesFromMarkup(markup, handleScript) {
 module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":23,"./createArrayFrom":104,"./getMarkupWrap":120,"./invariant":128,"_process":2}],107:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./createArrayFrom":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/createArrayFrom.js","./getMarkupWrap":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getMarkupWrap.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/dangerousStyleValue.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16247,7 +16273,7 @@ function dangerousStyleValue(name, value) {
 
 module.exports = dangerousStyleValue;
 
-},{"./CSSProperty":5}],108:[function(require,module,exports){
+},{"./CSSProperty":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/CSSProperty.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/deprecated.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -16298,7 +16324,7 @@ function deprecated(namespace, oldName, newName, ctx, fn) {
 module.exports = deprecated;
 
 }).call(this,require('_process'))
-},{"./Object.assign":28,"./warning":147,"_process":2}],109:[function(require,module,exports){
+},{"./Object.assign":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/Object.assign.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16332,7 +16358,7 @@ emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{}],110:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyObject.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -16356,7 +16382,7 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = emptyObject;
 
 }).call(this,require('_process'))
-},{"_process":2}],111:[function(require,module,exports){
+},{"_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/escapeTextForBrowser.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16397,7 +16423,7 @@ function escapeTextForBrowser(text) {
 
 module.exports = escapeTextForBrowser;
 
-},{}],112:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/flattenChildren.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -16466,7 +16492,7 @@ function flattenChildren(children) {
 module.exports = flattenChildren;
 
 }).call(this,require('_process'))
-},{"./ReactTextComponent":80,"./traverseAllChildren":146,"./warning":147,"_process":2}],113:[function(require,module,exports){
+},{"./ReactTextComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactTextComponent.js","./traverseAllChildren":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/traverseAllChildren.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/focusNode.js":[function(require,module,exports){
 /**
  * Copyright 2014, Facebook, Inc.
  * All rights reserved.
@@ -16495,7 +16521,7 @@ function focusNode(node) {
 
 module.exports = focusNode;
 
-},{}],114:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/forEachAccumulated.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16526,7 +16552,7 @@ var forEachAccumulated = function(arr, cb, scope) {
 
 module.exports = forEachAccumulated;
 
-},{}],115:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getActiveElement.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16555,7 +16581,7 @@ function getActiveElement() /*?DOMElement*/ {
 
 module.exports = getActiveElement;
 
-},{}],116:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventCharCode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16607,7 +16633,7 @@ function getEventCharCode(nativeEvent) {
 
 module.exports = getEventCharCode;
 
-},{}],117:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventKey.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16712,7 +16738,7 @@ function getEventKey(nativeEvent) {
 
 module.exports = getEventKey;
 
-},{"./getEventCharCode":116}],118:[function(require,module,exports){
+},{"./getEventCharCode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventCharCode.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventModifierState.js":[function(require,module,exports){
 /**
  * Copyright 2013 Facebook, Inc.
  * All rights reserved.
@@ -16759,7 +16785,7 @@ function getEventModifierState(nativeEvent) {
 
 module.exports = getEventModifierState;
 
-},{}],119:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getEventTarget.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16790,7 +16816,7 @@ function getEventTarget(nativeEvent) {
 
 module.exports = getEventTarget;
 
-},{}],120:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getMarkupWrap.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -16907,7 +16933,7 @@ function getMarkupWrap(nodeName) {
 module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":23,"./invariant":128,"_process":2}],121:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getNodeForCharacterOffset.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -16982,7 +17008,7 @@ function getNodeForCharacterOffset(root, offset) {
 
 module.exports = getNodeForCharacterOffset;
 
-},{}],122:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getReactRootElementInContainer.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17017,7 +17043,7 @@ function getReactRootElementInContainer(container) {
 
 module.exports = getReactRootElementInContainer;
 
-},{}],123:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getTextContentAccessor.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17054,7 +17080,7 @@ function getTextContentAccessor() {
 
 module.exports = getTextContentAccessor;
 
-},{"./ExecutionEnvironment":23}],124:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/getUnboundedScrollPosition.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17094,7 +17120,7 @@ function getUnboundedScrollPosition(scrollable) {
 
 module.exports = getUnboundedScrollPosition;
 
-},{}],125:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/hyphenate.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17127,7 +17153,7 @@ function hyphenate(string) {
 
 module.exports = hyphenate;
 
-},{}],126:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/hyphenateStyleName.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17168,7 +17194,7 @@ function hyphenateStyleName(string) {
 
 module.exports = hyphenateStyleName;
 
-},{"./hyphenate":125}],127:[function(require,module,exports){
+},{"./hyphenate":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/hyphenate.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/instantiateReactComponent.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17282,7 +17308,7 @@ function instantiateReactComponent(element, parentCompositeType) {
 module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
-},{"./ReactElement":54,"./ReactEmptyComponent":56,"./ReactLegacyElement":63,"./ReactNativeComponent":68,"./warning":147,"_process":2}],128:[function(require,module,exports){
+},{"./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactEmptyComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactEmptyComponent.js","./ReactLegacyElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactLegacyElement.js","./ReactNativeComponent":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactNativeComponent.js","./warning":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17339,7 +17365,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":2}],129:[function(require,module,exports){
+},{"_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isEventSupported.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17404,7 +17430,7 @@ function isEventSupported(eventNameSuffix, capture) {
 
 module.exports = isEventSupported;
 
-},{"./ExecutionEnvironment":23}],130:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isNode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17432,7 +17458,7 @@ function isNode(object) {
 
 module.exports = isNode;
 
-},{}],131:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isTextInputElement.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17476,7 +17502,7 @@ function isTextInputElement(elem) {
 
 module.exports = isTextInputElement;
 
-},{}],132:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isTextNode.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17501,7 +17527,7 @@ function isTextNode(object) {
 
 module.exports = isTextNode;
 
-},{"./isNode":130}],133:[function(require,module,exports){
+},{"./isNode":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/isNode.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/joinClasses.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17542,7 +17568,7 @@ function joinClasses(className/*, ... */) {
 
 module.exports = joinClasses;
 
-},{}],134:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyMirror.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17597,7 +17623,7 @@ var keyMirror = function(obj) {
 module.exports = keyMirror;
 
 }).call(this,require('_process'))
-},{"./invariant":128,"_process":2}],135:[function(require,module,exports){
+},{"./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/keyOf.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17633,7 +17659,7 @@ var keyOf = function(oneKeyObj) {
 
 module.exports = keyOf;
 
-},{}],136:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/mapObject.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17686,7 +17712,7 @@ function mapObject(object, callback, context) {
 
 module.exports = mapObject;
 
-},{}],137:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/memoizeStringOnly.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17720,7 +17746,7 @@ function memoizeStringOnly(callback) {
 
 module.exports = memoizeStringOnly;
 
-},{}],138:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/monitorCodeUse.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -17754,7 +17780,7 @@ function monitorCodeUse(eventName, data) {
 module.exports = monitorCodeUse;
 
 }).call(this,require('_process'))
-},{"./invariant":128,"_process":2}],139:[function(require,module,exports){
+},{"./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/onlyChild.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -17794,7 +17820,7 @@ function onlyChild(children) {
 module.exports = onlyChild;
 
 }).call(this,require('_process'))
-},{"./ReactElement":54,"./invariant":128,"_process":2}],140:[function(require,module,exports){
+},{"./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/performance.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17822,7 +17848,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = performance || {};
 
-},{"./ExecutionEnvironment":23}],141:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/performanceNow.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17850,7 +17876,7 @@ var performanceNow = performance.now.bind(performance);
 
 module.exports = performanceNow;
 
-},{"./performance":140}],142:[function(require,module,exports){
+},{"./performance":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/performance.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/setInnerHTML.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17928,7 +17954,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setInnerHTML;
 
-},{"./ExecutionEnvironment":23}],143:[function(require,module,exports){
+},{"./ExecutionEnvironment":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ExecutionEnvironment.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/shallowEqual.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -17972,7 +17998,7 @@ function shallowEqual(objA, objB) {
 
 module.exports = shallowEqual;
 
-},{}],144:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/shouldUpdateReactComponent.js":[function(require,module,exports){
 /**
  * Copyright 2013-2014, Facebook, Inc.
  * All rights reserved.
@@ -18010,7 +18036,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 
 module.exports = shouldUpdateReactComponent;
 
-},{}],145:[function(require,module,exports){
+},{}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/toArray.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -18082,7 +18108,7 @@ function toArray(obj) {
 module.exports = toArray;
 
 }).call(this,require('_process'))
-},{"./invariant":128,"_process":2}],146:[function(require,module,exports){
+},{"./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/traverseAllChildren.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2014, Facebook, Inc.
@@ -18265,7 +18291,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
-},{"./ReactElement":54,"./ReactInstanceHandles":62,"./invariant":128,"_process":2}],147:[function(require,module,exports){
+},{"./ReactElement":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactElement.js","./ReactInstanceHandles":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/ReactInstanceHandles.js","./invariant":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/invariant.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/warning.js":[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014, Facebook, Inc.
@@ -18310,7 +18336,624 @@ if ("production" !== process.env.NODE_ENV) {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"./emptyFunction":109,"_process":2}],148:[function(require,module,exports){
+},{"./emptyFunction":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/emptyFunction.js","_process":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/react.js":[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":30}]},{},[1]);
+},{"./lib/React":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/lib/React.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/reqwest/reqwest.js":[function(require,module,exports){
+/*!
+  * Reqwest! A general purpose XHR connection manager
+  * license MIT (c) Dustin Diaz 2014
+  * https://github.com/ded/reqwest
+  */
+
+!function (name, context, definition) {
+  if (typeof module != 'undefined' && module.exports) module.exports = definition()
+  else if (typeof define == 'function' && define.amd) define(definition)
+  else context[name] = definition()
+}('reqwest', this, function () {
+
+  var win = window
+    , doc = document
+    , httpsRe = /^http/
+    , protocolRe = /(^\w+):\/\//
+    , twoHundo = /^(20\d|1223)$/ //http://stackoverflow.com/questions/10046972/msie-returns-status-code-of-1223-for-ajax-request
+    , byTag = 'getElementsByTagName'
+    , readyState = 'readyState'
+    , contentType = 'Content-Type'
+    , requestedWith = 'X-Requested-With'
+    , head = doc[byTag]('head')[0]
+    , uniqid = 0
+    , callbackPrefix = 'reqwest_' + (+new Date())
+    , lastValue // data stored by the most recent JSONP callback
+    , xmlHttpRequest = 'XMLHttpRequest'
+    , xDomainRequest = 'XDomainRequest'
+    , noop = function () {}
+
+    , isArray = typeof Array.isArray == 'function'
+        ? Array.isArray
+        : function (a) {
+            return a instanceof Array
+          }
+
+    , defaultHeaders = {
+          'contentType': 'application/x-www-form-urlencoded'
+        , 'requestedWith': xmlHttpRequest
+        , 'accept': {
+              '*':  'text/javascript, text/html, application/xml, text/xml, */*'
+            , 'xml':  'application/xml, text/xml'
+            , 'html': 'text/html'
+            , 'text': 'text/plain'
+            , 'json': 'application/json, text/javascript'
+            , 'js':   'application/javascript, text/javascript'
+          }
+      }
+
+    , xhr = function(o) {
+        // is it x-domain
+        if (o['crossOrigin'] === true) {
+          var xhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null
+          if (xhr && 'withCredentials' in xhr) {
+            return xhr
+          } else if (win[xDomainRequest]) {
+            return new XDomainRequest()
+          } else {
+            throw new Error('Browser does not support cross-origin requests')
+          }
+        } else if (win[xmlHttpRequest]) {
+          return new XMLHttpRequest()
+        } else {
+          return new ActiveXObject('Microsoft.XMLHTTP')
+        }
+      }
+    , globalSetupOptions = {
+        dataFilter: function (data) {
+          return data
+        }
+      }
+
+  function succeed(r) {
+    var protocol = protocolRe.exec(r.url);
+    protocol = (protocol && protocol[1]) || window.location.protocol;
+    return httpsRe.test(protocol) ? twoHundo.test(r.request.status) : !!r.request.response;
+  }
+
+  function handleReadyState(r, success, error) {
+    return function () {
+      // use _aborted to mitigate against IE err c00c023f
+      // (can't read props on aborted request objects)
+      if (r._aborted) return error(r.request)
+      if (r._timedOut) return error(r.request, 'Request is aborted: timeout')
+      if (r.request && r.request[readyState] == 4) {
+        r.request.onreadystatechange = noop
+        if (succeed(r)) success(r.request)
+        else
+          error(r.request)
+      }
+    }
+  }
+
+  function setHeaders(http, o) {
+    var headers = o['headers'] || {}
+      , h
+
+    headers['Accept'] = headers['Accept']
+      || defaultHeaders['accept'][o['type']]
+      || defaultHeaders['accept']['*']
+
+    var isAFormData = typeof FormData === 'function' && (o['data'] instanceof FormData);
+    // breaks cross-origin requests with legacy browsers
+    if (!o['crossOrigin'] && !headers[requestedWith]) headers[requestedWith] = defaultHeaders['requestedWith']
+    if (!headers[contentType] && !isAFormData) headers[contentType] = o['contentType'] || defaultHeaders['contentType']
+    for (h in headers)
+      headers.hasOwnProperty(h) && 'setRequestHeader' in http && http.setRequestHeader(h, headers[h])
+  }
+
+  function setCredentials(http, o) {
+    if (typeof o['withCredentials'] !== 'undefined' && typeof http.withCredentials !== 'undefined') {
+      http.withCredentials = !!o['withCredentials']
+    }
+  }
+
+  function generalCallback(data) {
+    lastValue = data
+  }
+
+  function urlappend (url, s) {
+    return url + (/\?/.test(url) ? '&' : '?') + s
+  }
+
+  function handleJsonp(o, fn, err, url) {
+    var reqId = uniqid++
+      , cbkey = o['jsonpCallback'] || 'callback' // the 'callback' key
+      , cbval = o['jsonpCallbackName'] || reqwest.getcallbackPrefix(reqId)
+      , cbreg = new RegExp('((^|\\?|&)' + cbkey + ')=([^&]+)')
+      , match = url.match(cbreg)
+      , script = doc.createElement('script')
+      , loaded = 0
+      , isIE10 = navigator.userAgent.indexOf('MSIE 10.0') !== -1
+
+    if (match) {
+      if (match[3] === '?') {
+        url = url.replace(cbreg, '$1=' + cbval) // wildcard callback func name
+      } else {
+        cbval = match[3] // provided callback func name
+      }
+    } else {
+      url = urlappend(url, cbkey + '=' + cbval) // no callback details, add 'em
+    }
+
+    win[cbval] = generalCallback
+
+    script.type = 'text/javascript'
+    script.src = url
+    script.async = true
+    if (typeof script.onreadystatechange !== 'undefined' && !isIE10) {
+      // need this for IE due to out-of-order onreadystatechange(), binding script
+      // execution to an event listener gives us control over when the script
+      // is executed. See http://jaubourg.net/2010/07/loading-script-as-onclick-handler-of.html
+      script.htmlFor = script.id = '_reqwest_' + reqId
+    }
+
+    script.onload = script.onreadystatechange = function () {
+      if ((script[readyState] && script[readyState] !== 'complete' && script[readyState] !== 'loaded') || loaded) {
+        return false
+      }
+      script.onload = script.onreadystatechange = null
+      script.onclick && script.onclick()
+      // Call the user callback with the last value stored and clean up values and scripts.
+      fn(lastValue)
+      lastValue = undefined
+      head.removeChild(script)
+      loaded = 1
+    }
+
+    // Add the script to the DOM head
+    head.appendChild(script)
+
+    // Enable JSONP timeout
+    return {
+      abort: function () {
+        script.onload = script.onreadystatechange = null
+        err({}, 'Request is aborted: timeout', {})
+        lastValue = undefined
+        head.removeChild(script)
+        loaded = 1
+      }
+    }
+  }
+
+  function getRequest(fn, err) {
+    var o = this.o
+      , method = (o['method'] || 'GET').toUpperCase()
+      , url = typeof o === 'string' ? o : o['url']
+      // convert non-string objects to query-string form unless o['processData'] is false
+      , data = (o['processData'] !== false && o['data'] && typeof o['data'] !== 'string')
+        ? reqwest.toQueryString(o['data'])
+        : (o['data'] || null)
+      , http
+      , sendWait = false
+
+    // if we're working on a GET request and we have data then we should append
+    // query string to end of URL and not post data
+    if ((o['type'] == 'jsonp' || method == 'GET') && data) {
+      url = urlappend(url, data)
+      data = null
+    }
+
+    if (o['type'] == 'jsonp') return handleJsonp(o, fn, err, url)
+
+    // get the xhr from the factory if passed
+    // if the factory returns null, fall-back to ours
+    http = (o.xhr && o.xhr(o)) || xhr(o)
+
+    http.open(method, url, o['async'] === false ? false : true)
+    setHeaders(http, o)
+    setCredentials(http, o)
+    if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
+        http.onload = fn
+        http.onerror = err
+        // NOTE: see
+        // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
+        http.onprogress = function() {}
+        sendWait = true
+    } else {
+      http.onreadystatechange = handleReadyState(this, fn, err)
+    }
+    o['before'] && o['before'](http)
+    if (sendWait) {
+      setTimeout(function () {
+        http.send(data)
+      }, 200)
+    } else {
+      http.send(data)
+    }
+    return http
+  }
+
+  function Reqwest(o, fn) {
+    this.o = o
+    this.fn = fn
+
+    init.apply(this, arguments)
+  }
+
+  function setType(header) {
+    // json, javascript, text/plain, text/html, xml
+    if (header.match('json')) return 'json'
+    if (header.match('javascript')) return 'js'
+    if (header.match('text')) return 'html'
+    if (header.match('xml')) return 'xml'
+  }
+
+  function init(o, fn) {
+
+    this.url = typeof o == 'string' ? o : o['url']
+    this.timeout = null
+
+    // whether request has been fulfilled for purpose
+    // of tracking the Promises
+    this._fulfilled = false
+    // success handlers
+    this._successHandler = function(){}
+    this._fulfillmentHandlers = []
+    // error handlers
+    this._errorHandlers = []
+    // complete (both success and fail) handlers
+    this._completeHandlers = []
+    this._erred = false
+    this._responseArgs = {}
+
+    var self = this
+
+    fn = fn || function () {}
+
+    if (o['timeout']) {
+      this.timeout = setTimeout(function () {
+        timedOut()
+      }, o['timeout'])
+    }
+
+    if (o['success']) {
+      this._successHandler = function () {
+        o['success'].apply(o, arguments)
+      }
+    }
+
+    if (o['error']) {
+      this._errorHandlers.push(function () {
+        o['error'].apply(o, arguments)
+      })
+    }
+
+    if (o['complete']) {
+      this._completeHandlers.push(function () {
+        o['complete'].apply(o, arguments)
+      })
+    }
+
+    function complete (resp) {
+      o['timeout'] && clearTimeout(self.timeout)
+      self.timeout = null
+      while (self._completeHandlers.length > 0) {
+        self._completeHandlers.shift()(resp)
+      }
+    }
+
+    function success (resp) {
+      var type = o['type'] || resp && setType(resp.getResponseHeader('Content-Type')) // resp can be undefined in IE
+      resp = (type !== 'jsonp') ? self.request : resp
+      // use global data filter on response text
+      var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type)
+        , r = filteredResponse
+      try {
+        resp.responseText = r
+      } catch (e) {
+        // can't assign this in IE<=8, just ignore
+      }
+      if (r) {
+        switch (type) {
+        case 'json':
+          try {
+            resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')')
+          } catch (err) {
+            return error(resp, 'Could not parse JSON in response', err)
+          }
+          break
+        case 'js':
+          resp = eval(r)
+          break
+        case 'html':
+          resp = r
+          break
+        case 'xml':
+          resp = resp.responseXML
+              && resp.responseXML.parseError // IE trololo
+              && resp.responseXML.parseError.errorCode
+              && resp.responseXML.parseError.reason
+            ? null
+            : resp.responseXML
+          break
+        }
+      }
+
+      self._responseArgs.resp = resp
+      self._fulfilled = true
+      fn(resp)
+      self._successHandler(resp)
+      while (self._fulfillmentHandlers.length > 0) {
+        resp = self._fulfillmentHandlers.shift()(resp)
+      }
+
+      complete(resp)
+    }
+
+    function timedOut() {
+      self._timedOut = true
+      self.request.abort()      
+    }
+
+    function error(resp, msg, t) {
+      resp = self.request
+      self._responseArgs.resp = resp
+      self._responseArgs.msg = msg
+      self._responseArgs.t = t
+      self._erred = true
+      while (self._errorHandlers.length > 0) {
+        self._errorHandlers.shift()(resp, msg, t)
+      }
+      complete(resp)
+    }
+
+    this.request = getRequest.call(this, success, error)
+  }
+
+  Reqwest.prototype = {
+    abort: function () {
+      this._aborted = true
+      this.request.abort()
+    }
+
+  , retry: function () {
+      init.call(this, this.o, this.fn)
+    }
+
+    /**
+     * Small deviation from the Promises A CommonJs specification
+     * http://wiki.commonjs.org/wiki/Promises/A
+     */
+
+    /**
+     * `then` will execute upon successful requests
+     */
+  , then: function (success, fail) {
+      success = success || function () {}
+      fail = fail || function () {}
+      if (this._fulfilled) {
+        this._responseArgs.resp = success(this._responseArgs.resp)
+      } else if (this._erred) {
+        fail(this._responseArgs.resp, this._responseArgs.msg, this._responseArgs.t)
+      } else {
+        this._fulfillmentHandlers.push(success)
+        this._errorHandlers.push(fail)
+      }
+      return this
+    }
+
+    /**
+     * `always` will execute whether the request succeeds or fails
+     */
+  , always: function (fn) {
+      if (this._fulfilled || this._erred) {
+        fn(this._responseArgs.resp)
+      } else {
+        this._completeHandlers.push(fn)
+      }
+      return this
+    }
+
+    /**
+     * `fail` will execute when the request fails
+     */
+  , fail: function (fn) {
+      if (this._erred) {
+        fn(this._responseArgs.resp, this._responseArgs.msg, this._responseArgs.t)
+      } else {
+        this._errorHandlers.push(fn)
+      }
+      return this
+    }
+  , 'catch': function (fn) {
+      return this.fail(fn)
+    }
+  }
+
+  function reqwest(o, fn) {
+    return new Reqwest(o, fn)
+  }
+
+  // normalize newline variants according to spec -> CRLF
+  function normalize(s) {
+    return s ? s.replace(/\r?\n/g, '\r\n') : ''
+  }
+
+  function serial(el, cb) {
+    var n = el.name
+      , t = el.tagName.toLowerCase()
+      , optCb = function (o) {
+          // IE gives value="" even where there is no value attribute
+          // 'specified' ref: http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-862529273
+          if (o && !o['disabled'])
+            cb(n, normalize(o['attributes']['value'] && o['attributes']['value']['specified'] ? o['value'] : o['text']))
+        }
+      , ch, ra, val, i
+
+    // don't serialize elements that are disabled or without a name
+    if (el.disabled || !n) return
+
+    switch (t) {
+    case 'input':
+      if (!/reset|button|image|file/i.test(el.type)) {
+        ch = /checkbox/i.test(el.type)
+        ra = /radio/i.test(el.type)
+        val = el.value
+        // WebKit gives us "" instead of "on" if a checkbox has no value, so correct it here
+        ;(!(ch || ra) || el.checked) && cb(n, normalize(ch && val === '' ? 'on' : val))
+      }
+      break
+    case 'textarea':
+      cb(n, normalize(el.value))
+      break
+    case 'select':
+      if (el.type.toLowerCase() === 'select-one') {
+        optCb(el.selectedIndex >= 0 ? el.options[el.selectedIndex] : null)
+      } else {
+        for (i = 0; el.length && i < el.length; i++) {
+          el.options[i].selected && optCb(el.options[i])
+        }
+      }
+      break
+    }
+  }
+
+  // collect up all form elements found from the passed argument elements all
+  // the way down to child elements; pass a '<form>' or form fields.
+  // called with 'this'=callback to use for serial() on each element
+  function eachFormElement() {
+    var cb = this
+      , e, i
+      , serializeSubtags = function (e, tags) {
+          var i, j, fa
+          for (i = 0; i < tags.length; i++) {
+            fa = e[byTag](tags[i])
+            for (j = 0; j < fa.length; j++) serial(fa[j], cb)
+          }
+        }
+
+    for (i = 0; i < arguments.length; i++) {
+      e = arguments[i]
+      if (/input|select|textarea/i.test(e.tagName)) serial(e, cb)
+      serializeSubtags(e, [ 'input', 'select', 'textarea' ])
+    }
+  }
+
+  // standard query string style serialization
+  function serializeQueryString() {
+    return reqwest.toQueryString(reqwest.serializeArray.apply(null, arguments))
+  }
+
+  // { 'name': 'value', ... } style serialization
+  function serializeHash() {
+    var hash = {}
+    eachFormElement.apply(function (name, value) {
+      if (name in hash) {
+        hash[name] && !isArray(hash[name]) && (hash[name] = [hash[name]])
+        hash[name].push(value)
+      } else hash[name] = value
+    }, arguments)
+    return hash
+  }
+
+  // [ { name: 'name', value: 'value' }, ... ] style serialization
+  reqwest.serializeArray = function () {
+    var arr = []
+    eachFormElement.apply(function (name, value) {
+      arr.push({name: name, value: value})
+    }, arguments)
+    return arr
+  }
+
+  reqwest.serialize = function () {
+    if (arguments.length === 0) return ''
+    var opt, fn
+      , args = Array.prototype.slice.call(arguments, 0)
+
+    opt = args.pop()
+    opt && opt.nodeType && args.push(opt) && (opt = null)
+    opt && (opt = opt.type)
+
+    if (opt == 'map') fn = serializeHash
+    else if (opt == 'array') fn = reqwest.serializeArray
+    else fn = serializeQueryString
+
+    return fn.apply(null, args)
+  }
+
+  reqwest.toQueryString = function (o, trad) {
+    var prefix, i
+      , traditional = trad || false
+      , s = []
+      , enc = encodeURIComponent
+      , add = function (key, value) {
+          // If value is a function, invoke it and return its value
+          value = ('function' === typeof value) ? value() : (value == null ? '' : value)
+          s[s.length] = enc(key) + '=' + enc(value)
+        }
+    // If an array was passed in, assume that it is an array of form elements.
+    if (isArray(o)) {
+      for (i = 0; o && i < o.length; i++) add(o[i]['name'], o[i]['value'])
+    } else {
+      // If traditional, encode the "old" way (the way 1.3.2 or older
+      // did it), otherwise encode params recursively.
+      for (prefix in o) {
+        if (o.hasOwnProperty(prefix)) buildParams(prefix, o[prefix], traditional, add)
+      }
+    }
+
+    // spaces should be + according to spec
+    return s.join('&').replace(/%20/g, '+')
+  }
+
+  function buildParams(prefix, obj, traditional, add) {
+    var name, i, v
+      , rbracket = /\[\]$/
+
+    if (isArray(obj)) {
+      // Serialize array item.
+      for (i = 0; obj && i < obj.length; i++) {
+        v = obj[i]
+        if (traditional || rbracket.test(prefix)) {
+          // Treat each array item as a scalar.
+          add(prefix, v)
+        } else {
+          buildParams(prefix + '[' + (typeof v === 'object' ? i : '') + ']', v, traditional, add)
+        }
+      }
+    } else if (obj && obj.toString() === '[object Object]') {
+      // Serialize object item.
+      for (name in obj) {
+        buildParams(prefix + '[' + name + ']', obj[name], traditional, add)
+      }
+
+    } else {
+      // Serialize scalar item.
+      add(prefix, obj)
+    }
+  }
+
+  reqwest.getcallbackPrefix = function () {
+    return callbackPrefix
+  }
+
+  // jQuery and Zepto compatibility, differences can be remapped here so you can call
+  // .ajax.compat(options, callback)
+  reqwest.compat = function (o, fn) {
+    if (o) {
+      o['type'] && (o['method'] = o['type']) && delete o['type']
+      o['dataType'] && (o['type'] = o['dataType'])
+      o['jsonpCallback'] && (o['jsonpCallbackName'] = o['jsonpCallback']) && delete o['jsonpCallback']
+      o['jsonp'] && (o['jsonpCallback'] = o['jsonp'])
+    }
+    return new Reqwest(o, fn)
+  }
+
+  reqwest.ajaxSetup = function (options) {
+    options = options || {}
+    for (var k in options) {
+      globalSetupOptions[k] = options[k]
+    }
+  }
+
+  return reqwest
+});
+
+},{}]},{},["./client/app.js"]);

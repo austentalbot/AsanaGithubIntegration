@@ -22,15 +22,9 @@ if (process.env.PORT===undefined) {
 
 console.log(credentials);
 
-var redis = require('redis');
-var client = redis.createClient(credentials.redisPort, credentials.redisHost);
-client.auth(credentials.redisAuth);
-
-// console.log('testing');
-// client.get('austentalbot', function(err, reply) {
-//   console.log('err', err);
-//   console.log(reply);
-// });
+// var redis = require('redis');
+// var client = redis.createClient(credentials.redisPort, credentials.redisHost);
+// client.auth(credentials.redisAuth);
 
 var asana = {
   addFollowers: function(followers, task, responseText, res) {

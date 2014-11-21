@@ -4,16 +4,16 @@ var watchify = require('watchify');
 var source = require('vinyl-source-stream');
  
 gulp.task('browserify', function() {
-  return browserify('./app.js')
+  return browserify('./client/app.js')
     .bundle()
-    .pipe(source('./bundle.js'))
+    .pipe(source('./client/bundle.js'))
     .pipe(gulp.dest('./'));
 });
 
 gulp.task('watchify', function(){
   var bundleShare = function(b) {
     b.bundle()
-      .pipe(source('bundle.js'))
+      .pipe(source('./client/bundle.js'))
       .pipe(gulp.dest('./'));
   };
   var b = browserify({
@@ -26,6 +26,6 @@ gulp.task('watchify', function(){
     bundleShare(b);
   });
 
-  b.add('./app.js');
+  b.add('./client/app.js');
   bundleShare(b);
 });

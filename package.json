@@ -25,6 +25,7 @@
     "react": "^0.12.1",
     "redis": "^0.12.1",
     "request": "^2.47.0",
+    "reqwest": "^1.1.5",
     "style-guide": "git+ssh://git@github.com:Asana/style-guide.git#master",
     "vinyl-source-stream": "^1.0.0"
   },

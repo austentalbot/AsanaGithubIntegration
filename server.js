@@ -12,8 +12,28 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+
+//serve up client-side signup page
 app.get('/', function(req, res){
-  res.status(200).send('Asana Github Integration');
+  console.log('index');
+  res.status(200).sendFile(__dirname + '/client/index.html');
+});
+
+app.get('/bundle.js', function(req, res){
+  console.log('bundle');
+  res.status(200).sendFile(__dirname + '/client/bundle.js');
+});
+
+app.get('/style-guide.min.css', function(req, res){
+  console.log('css');
+  res.status(200).sendFile(__dirname + '/node_modules/style-guide/dist/css/style-guide.min.css');
+});
+
+//add user to database
+app.post('/addUser', function(req, res) {
+  console.log('add user');
+  console.log(req.body);
+  res.status(200).send('Click received');
 });
 
 app.post('/pull/:project', function(req, res) {
