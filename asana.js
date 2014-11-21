@@ -29,7 +29,7 @@ var asana = {
         .format('MMMM Do YYYY, h:mm:ss a'),
       title: [action.pull_request.title, action.pull_request.number].join(' ')
     };
-    this.findTask(assignment.title, function(task, err) {
+    this.findTask(assignment.title, req.params.project, function(task, err) {
       if (!task) {
         res.status(501).send(err || 'Could not find task associated with pull request');
       } else {
@@ -75,7 +75,7 @@ var asana = {
       title: [action.pull_request.title, action.pull_request.number].join(' ')
     };
     //find associated task id by task name
-    this.findTask(close.title, function(task, err) {
+    this.findTask(close.title, req.params.project, function(task, err) {
       if (!task) {
         res.status(501).send(err || 'Could not find task associated with pull request');
       } else {
@@ -179,7 +179,7 @@ var asana = {
     };
     //find associated task id by task name
     // this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
-    this.findTask(comment.title, function(task, err) {
+    this.findTask(comment.title, req.params.project, function(task, err) {
       if (!task) {
         res.status(501).send(err || 'Could not find task associated with pull request');
       } else {
@@ -209,7 +209,7 @@ var asana = {
     });
   },
   createPullComment: function(req, res) {
-    var action = req.body
+    var action = req.body;
     //pull out relevant info from comment
     var comment = {
       author: action.comment.user.login,
@@ -231,7 +231,7 @@ var asana = {
     };
     //find associated task id by task name
     // this.findTask('Pull request: This is a test. Please ignore.', function(task, err) {
-    this.findTask(comment.title, function(task, err) {
+    this.findTask(comment.title, req.params.project, function(task, err) {
       if (!task) {
         res.status(501).send(err || 'Could not find task associated with pull request');
       } else {
@@ -260,9 +260,9 @@ var asana = {
       }
     });
   },
-  findTask: function(name, callback) {
+  findTask: function(name, project, callback) {
     request.get({
-      url: [asanaUrl,'/projects/',req.params.project,'/tasks'].join(''),
+      url: [asanaUrl,'/projects/', project, '/tasks'].join(''),
       auth: {
         'user': credentials.key,
         'pass': '',
