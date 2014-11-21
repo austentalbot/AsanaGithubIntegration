@@ -19,6 +19,16 @@ if (process.env.PORT===undefined) {
 
 console.log(credentials);
 
+// var redis = require('redis');
+// var client = redis.createClient(credentials.redisPort, credentials.redisHost);
+// client.auth(credentials.redisAuth);
+
+// console.log('testing');
+// client.get('austentalbot', function(err, reply) {
+//   console.log('err', err);
+//   console.log(reply);
+// });
+
 var asana = {
   addFollowers: function(followers, task, responseText, res) {
     ///tasks/task-id/addFollowers
@@ -52,32 +62,39 @@ var asana = {
         .format('MMMM Do YYYY, h:mm:ss a'),
       title: [action.pull_request.title, action.pull_request.number].join(' ')
     };
-    this.findTask(assignment.title, req.params.project, function(task, err) {
-      if (!task) {
-        res.status(501).send(err || 'Could not find task associated with pull request');
-      } else {
-        console.log(task);
-        request.put({
-          url: [asanaUrl,'/tasks/',task.id].join(''),
-          auth: {
-            'user': credentials.key,
-            'pass': '',
-            'sendImmediately': true
-          },
-          form: {
-            assignee: credentials.ghToAsana[assignment.assignee]
-          }
-        }, function(err, resp, body) {
-          console.log(err);
-          console.log(body);
-          var response = JSON.parse(body);
-          if ('errors' in response) {
-            res.status(501).send(JSON.stringify(response.errors));
-          } else {
-            res.status(201).send('Assigned task');
-          }
-        });
+    //map gh handle to asana id through redis
+    client.get(assignment.assignee, function(err, asanaId) {
+      if (err) {
+        res.status(501).send('Assignee not in database');
+        return;
       }
+      this.findTask(assignment.title, req.params.project, function(task, err) {
+        if (!task) {
+          res.status(501).send(err || 'Could not find task associated with pull request');
+        } else {
+          console.log(task);
+          request.put({
+            url: [asanaUrl,'/tasks/',task.id].join(''),
+            auth: {
+              'user': credentials.key,
+              'pass': '',
+              'sendImmediately': true
+            },
+            form: {
+              assignee: asanaId
+            }
+          }, function(err, resp, body) {
+            console.log(err);
+            console.log(body);
+            var response = JSON.parse(body);
+            if ('errors' in response) {
+              res.status(501).send(JSON.stringify(response.errors));
+            } else {
+              res.status(201).send('Assigned task');
+            }
+          });
+        }
+      });
     });
   },
   closePullComment: function(req, res) {
@@ -130,7 +147,6 @@ var asana = {
   createTask: function(req, res) {
     var action = req.body;
     var pull = {
-      assignee: action.pull_request.assignee,
       creationDate: moment(action.pull_request.created_at)
         .tz("America/Los_Angeles")
         .format('MMMM Do YYYY, h:mm:ss a'),
@@ -139,8 +155,6 @@ var asana = {
         return [
           action.pull_request.body,
           '\nPull by:', this.creator, 
-          '\nAssigned to:',
-          this.assignee || 'no one',
           '\nDate:',
           this.creationDate,
           '\nURL:',
@@ -150,33 +164,32 @@ var asana = {
       title: [action.pull_request.title, action.pull_request.number].join(' '),
       url: action.pull_request.html_url
     }
-    request.post({
-      url: asanaUrl + '/tasks',
-      auth: {
-        'user': credentials.key,
-        'pass': '',
-        'sendImmediately': true
-      },
-      form: {
-        assignee: 
-          credentials.ghToAsana[pull.assignee] || 
-          credentials.ghToAsana[pull.creator] || 
-          credentials.defaultAssignee,
-        name: pull.title,
-        workspace: credentials.asanaWorkspace,
-        projects: [req.params.project],
-        notes: pull.notes(),
-        followers: [credentials.ghToAsana[pull.creator]]
-      }
-    }, function(err, resp, body) {
-      console.log(err);
-      console.log(body);
-      var response = JSON.parse(body);
-      if ('errors' in response) {
-        res.status(501).send(JSON.stringify(response.errors));
-      } else {
-        res.status(201).send('Created task');
-      }
+    client.get(pull.creator, function(err, asanaId) {
+      request.post({
+        url: asanaUrl + '/tasks',
+        auth: {
+          'user': credentials.key,
+          'pass': '',
+          'sendImmediately': true
+        },
+        form: {
+          assignee: asanaId || credentials.defaultAssignee,
+          name: pull.title,
+          workspace: credentials.asanaWorkspace,
+          projects: [req.params.project],
+          notes: pull.notes(),
+          followers: [asanaId]
+        }
+      }, function(err, resp, body) {
+        console.log(err);
+        console.log(body);
+        var response = JSON.parse(body);
+        if ('errors' in response) {
+          res.status(501).send(JSON.stringify(response.errors));
+        } else {
+          res.status(201).send('Created task');
+        }
+      });
     });
   },
   createIssueComment: function(req, res) {
