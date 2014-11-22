@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 window.React = React;
 var r = React.createElement;
 
