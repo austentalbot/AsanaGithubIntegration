@@ -1,50 +1,68 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./client/app.js":[function(require,module,exports){
+var React = require('react');
+window.React = React;
+var r = React.createElement;
+
+var AddUser = require('./components/AddUser');
+
+React.render(AddUser(), document.getElementById('react'));
+
+},{"./components/AddUser":"/Users/austen/sandbox/AsanaGithubIntegration/client/components/AddUser.js","react":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/react.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/client/components/AddUser.js":[function(require,module,exports){
 var reqwest = require('reqwest');
 
 var React = require('react');
 window.React = React;
 var r = React.createElement;
 
-React.render(r('div', {
-  children: [
-    r('h1', {}, 'Asana-github integration'),
-    r('div', {}, 'Asana id:'),
-    r('input', {
-      type: 'text',
-      id: 'asanaInput'
-    }),
-    r('div', {}, 'Github handle:'),
-    r('input', {
-      type: 'text',
-      id: 'githubInput'
-    }),
-    r('button', {
-      className: 'button button--sm',
-      onClick: function() {
-        var asana = document.getElementById('asanaInput').value;
-        var github = document.getElementById('githubInput').value;
-        if (!asana || !github) {
-          console.log('You must fill out both fields');
-          return;
-        }
-        reqwest({
-          url: 'http://127.0.0.1:4545/addUser',
-          method: 'post',
-          data: {
-            github: github,
-            asana: asana
-          },
-          error: function(err) {
-            console.log(err);
-          },
-          success: function (resp) {
-            console.log(resp);
+var AddUser = React.createClass({
+  render: function() {
+    return r('div', {
+      children: [
+        r('h1', {}, 'Asana-github integration'),
+        r('div', {}, 'Asana id:'),
+        r('input', {
+          type: 'text',
+          id: 'asanaInput'
+        }),
+        r('div', {}, 'Github handle:'),
+        r('input', {
+          type: 'text',
+          id: 'githubInput'
+        }),
+        r('button', {
+          className: 'button button--sm',
+          onClick: function() {
+            var asana = document.getElementById('asanaInput').value;
+            var github = document.getElementById('githubInput').value;
+            if (!asana || !github) {
+              console.log('You must fill out both fields');
+              return;
+            }
+            reqwest({
+              url: 'http://127.0.0.1:4545/addUser',
+              method: 'post',
+              data: {
+                github: github,
+                asana: asana
+              },
+              error: function(err) {
+                console.log(err);
+              },
+              success: function (resp) {
+                console.log(resp);
+              }
+            });
           }
-        });
-      }
-    }, 'Submit')
-  ]
-}), document.getElementById('react'));
+        }, 'Submit'),
+        r('h1', {
+          className: 'hidden'
+        }, 'Added new user!')
+      ]
+    });
+  }
+});
+
+module.exports = AddUser;
 
 },{"react":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/react/react.js","reqwest":"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/reqwest/reqwest.js"}],"/Users/austen/sandbox/AsanaGithubIntegration/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
 // shim for using process in browser

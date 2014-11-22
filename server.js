@@ -25,15 +25,20 @@ app.get('/bundle.js', function(req, res){
 });
 
 app.get('/style-guide.min.css', function(req, res){
-  console.log('css');
+  console.log('style guide');
   res.status(200).sendFile(__dirname + '/node_modules/style-guide/dist/css/style-guide.min.css');
+});
+
+app.get('/style.css', function(req, res){
+  console.log('css');
+  res.status(200).sendFile(__dirname + '/client/style.css');
 });
 
 //add user to database
 app.post('/addUser', function(req, res) {
   console.log('add user');
   console.log(req.body);
-  res.status(200).send('Click received');
+  asana.addUser(req, res);
 });
 
 app.post('/pull/:project', function(req, res) {
