@@ -1,3 +1,11 @@
+#react {
+    padding: 5px;
+}
+
 .hidden {
     visibility: hidden;
 }
+
+.button-block {
+    display: block;
+};

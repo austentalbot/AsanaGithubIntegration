@@ -51,14 +51,13 @@ var asana = {
     });
   },
   addUser: function(req, res) {
-    // client.set(req.body.github, req.body.asana, function(err, asanaId) {
-    //   if (err) {
-    //     res.status(501).send('Could not create ' + err);
-    //     return;
-    //   }
-    //   res.status(201).send('Added new user');
-    // });
-    res.status(201).send('Added new user');
+    client.set(req.body.github, req.body.asana, function(err, asanaId) {
+      if (err) {
+        res.status(501).send('Could not create ' + err);
+        return;
+      }
+      res.status(201).send('Added new user');
+    });
   },
   assignPull: function(req, res) {
     var action = req.body;

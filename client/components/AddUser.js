@@ -9,39 +9,40 @@ var AddUser = React.createClass({
   getInitialState: function() {
     return {
       added: false,
-      error: false
+      error: false,
+      buttonEnabled: false
     }
   },
   addUser: function() {
-    var that = this;
-    var asana = document.getElementById('asanaInput').value;
-    var github = document.getElementById('githubInput').value;
-    if (!asana || !github) {
-      alert('You must fill out both fields');
-      return;
+    if (this.state.buttonEnabled) {
+      var that = this;
+      var asana = document.getElementById('asanaInput').value;
+      var github = document.getElementById('githubInput').value;
+      reqwest({
+        url: 'http://127.0.0.1:4545/addUser',
+        method: 'post',
+        data: {
+          github: github,
+          asana: asana
+        },
+        error: function(err) {
+          console.log(err);
+          that.setState({error: true});
+        },
+        success: function (resp) {
+          console.log(resp);
+          document.getElementById('asanaInput').value = '';
+          document.getElementById('githubInput').value = '';
+          that.setState({added: true});
+        }
+      });
     }
-    reqwest({
-      url: 'http://127.0.0.1:4545/addUser',
-      method: 'post',
-      data: {
-        github: github,
-        asana: asana
-      },
-      error: function(err) {
-        console.log(err);
-      },
-      success: function (resp) {
-        console.log(resp);
-        document.getElementById('asanaInput').value = '';
-        document.getElementById('githubInput').value = '';
-        that.setState({added: true});
-      }
-    });
   },
   onInputChange: function(e) {
     this.setState({
         added: e.target.value.length === 0 && this.state.added,
-        error: e.target.value.length === 0 && this.state.error
+        error: e.target.value.length === 0 && this.state.error,
+        buttonEnabled: document.getElementById('asanaInput').value.length && document.getElementById('githubInput').value.length
     });
   },
   render: function() {
@@ -61,12 +62,20 @@ var AddUser = React.createClass({
           onChange: this.onInputChange
         }),
         r('button', {
-          className: 'button button--sm',
+          className: cx({
+            'button': true,
+            'button--sm': true,
+            'button-block': true,
+            'is-disabled': !this.state.buttonEnabled
+          }),
           onClick: this.addUser
         }, 'Submit'),
         r('h1', {
           className: cx({'hidden': !this.state.added})
-        }, 'Added new user!')
+        }, 'Added new user!'),
+        r('h1', {
+          className: cx({'hidden': !this.state.error})
+        }, 'Uh oh! Something went wrong.')
       ]
     });
   }
