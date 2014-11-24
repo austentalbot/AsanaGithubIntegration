@@ -1,5 +1,9 @@
 #react {
-    padding: 5px;
+    padding: 10px;
+}
+
+.directions {
+    color: #61aee1;
 }
 
 .hidden {
