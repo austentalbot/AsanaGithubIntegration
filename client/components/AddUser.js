@@ -19,7 +19,7 @@ var AddUser = React.createClass({
       var asana = document.getElementById('asanaInput').value;
       var github = document.getElementById('githubInput').value;
       reqwest({
-        url: 'http://127.0.0.1:4545/addUser',
+        url: 'http://asanagh.azurewebsites.net/addUser',
         method: 'post',
         data: {
           github: github,
