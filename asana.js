@@ -59,6 +59,7 @@ var asana = {
     });
   },
   assignPull: function(req, res) {
+    var that = this;
     var action = req.body;
     var assignment = {
       assignee: action.pull_request.assignee.login,
@@ -73,7 +74,7 @@ var asana = {
         res.status(501).send('Assignee not in database');
         return;
       }
-      this.findTask(assignment.title, req.params.project, function(task, err) {
+      that.findTask(assignment.title, req.params.project, function(task, err) {
         if (!task) {
           res.status(501).send(err || 'Could not find task associated with pull request');
         } else {
