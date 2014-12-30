@@ -36,12 +36,7 @@ app.get('/style.css', function(req, res){
 
 app.get('/auth', function(req, res) {
   console.log('auth get');
-  console.log(req.data);
-});
-
-app.post('/auth', function(req, res) {
-  console.log('auth post');
-  console.log(req.body);
+  console.log(req.query);
 });
 
 //add user to database
