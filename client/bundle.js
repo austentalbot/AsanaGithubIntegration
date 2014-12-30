@@ -23,6 +23,13 @@ var AddUser = React.createClass({
       buttonEnabled: false
     }
   },
+  asanaOAuth: function() {
+    //redirect to https://app.asana.com/-/oauth_authorize?client_id=23118865654177&redirect_uri=
+    // + encodeURIComponent("https://asanagh.azurewebsites.net/")
+    //https://app.asana.com/-/oauth_authorize?client_id=23118865654177&redirect_uri=https%3A%2F%2Fslack.com%2Fservices%2Fauth%2Fasana&response_type=code&state=%7B%22auth_id%22%3A%223311442131%22%2C%22user_id%22%3A%22U02MF9XHF%22%7D
+
+    // "https://app.asana.com/-/oauth_authorize?client_id=23118865654177&redirect_uri=" + encodeURIComponent("https://asanagh.azurewebsites.net/")
+  },
   addUser: function() {
     if (this.state.buttonEnabled) {
       var that = this;
@@ -82,6 +89,12 @@ var AddUser = React.createClass({
           }),
           onClick: this.addUser
         }, 'Submit'),
+        r('a', {
+          href: 'https://app.asana.com/-/oauth_authorize?client_id=23118865654177&redirect_uri=' +
+            encodeURIComponent('https://asanagh.azurewebsites.net/auth') +
+            '&response_type=code',
+          target: '_blank'
+        }, 'Asana OAuth'),
         r('h1', {
           className: cx({'hidden': !this.state.added})
         }, 'Added new user!'),

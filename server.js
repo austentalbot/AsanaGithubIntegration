@@ -34,6 +34,16 @@ app.get('/style.css', function(req, res){
   res.status(200).sendFile(__dirname + '/client/style.css');
 });
 
+app.get('/auth', function(req, res) {
+  console.log('auth get');
+  console.log(req.data);
+});
+
+app.post('/auth', function(req, res) {
+  console.log('auth post');
+  console.log(req.body);
+});
+
 //add user to database
 app.post('/addUser', function(req, res) {
   console.log('add user');

@@ -16,7 +16,8 @@ if (process.env.PORT===undefined) {
     ghToAsana: JSON.parse(process.env['ghToAsana']),
     redisHost: process.env['redisHost'],
     redisPort: process.env['redisPort'],
-    redisAuth: process.env['redisAuth']
+    redisAuth: process.env['redisAuth'],
+    asanaOAuthClientID: process.env['asanaOAuthClientID']
   };
 }
 
