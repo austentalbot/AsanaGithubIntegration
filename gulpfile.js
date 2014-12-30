@@ -10,7 +10,7 @@ gulp.task('browserify', function() {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('watchify', function(){
+gulp.task('watchify', ['browserify'], function(){
   var bundleShare = function(b) {
     b.bundle()
       .pipe(source('./client/bundle.js'))

@@ -182,7 +182,7 @@ html, body {
   color: inherit;
   font-size: 14px;
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Arial, sans-serif;
-  line-height: 1;
+  line-height: normal;
   text-rendering: optimizeLegibility; }
 
 h1 {
