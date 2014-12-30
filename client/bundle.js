@@ -92,7 +92,7 @@ var AddUser = React.createClass({
         r('a', {
           href: 'https://app.asana.com/-/oauth_authorize?client_id=23118865654177&redirect_uri=' +
             encodeURIComponent('https://asanagh.azurewebsites.net/auth') +
-            '&response_type=code',
+            '&response_type=code' + '&state=austenTestState',
           target: '_blank'
         }, 'Asana OAuth'),
         r('h1', {
