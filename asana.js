@@ -359,20 +359,20 @@ var asana = {
         'code': code
       }
     };
-    // request(params, function(err, res, payload) {
-    //   if (err) {
-    //     return reject(err);
-    //   }
-    //   if (res.statusCode !== 200) {
-    //     return reject(payload);
-    //   }
-    //   var result = JSON.parse(payload);
-    //   if (result.error) {
-    //     return reject(new OauthError(result));
-    //   } else {
-    //     return resolve(result);
-    //   }
-    // });
+    request(params, function(err, res, payload) {
+      if (err) {
+        console.log('initial error', err);
+        // res.status(501).send(err);
+      }
+      var result = JSON.parse(payload);
+      if (result.error) {
+        console.log('result error', result.error);
+        // res.status(501).send(result.err);
+      } else {
+        console.log('result success', result);
+        // res.status(200).send(result);
+      }
+    });
   }
 };
 
