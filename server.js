@@ -37,6 +37,8 @@ app.get('/style.css', function(req, res){
 app.get('/auth', function(req, res) {
   console.log('auth get');
   console.log(req.query);
+  //take state and add user to db
+  // res.status(200).send();
 });
 
 //add user to database

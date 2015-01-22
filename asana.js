@@ -1,7 +1,7 @@
 var request = require('request');
 var moment = require('moment-timezone');
 
-var asanaUrl = 'https://app.asana.com/api/1.0'
+var asanaUrl = 'https://app.asana.com/api/1.0';
 
 //load credentials locally or from host
 var credentials = {};
@@ -161,7 +161,7 @@ var asana = {
       notes: function() {
         return [
           action.pull_request.body,
-          '\nPull by:', this.creator, 
+          '\nPull by:', this.creator,
           '\nDate:',
           this.creationDate,
           '\nURL:',
@@ -251,8 +251,8 @@ var asana = {
           } else {
             client.get(comment.author, function(err, asanaId) {
               if (err) {
-                res.status(501).send('Assignee not in database');   
-                return;             
+                res.status(501).send('Assignee not in database');
+                return;
               }
               that.addFollowers([asanaId], task, 'Created comment', res);
             });
@@ -310,8 +310,8 @@ var asana = {
           } else {
             client.get(comment.author, function(err, asanaId) {
               if (err) {
-                res.status(501).send('Assignee not in database');   
-                return;             
+                res.status(501).send('Assignee not in database');
+                return;
               }
               that.addFollowers([asanaId], task, 'Created comment', res);
             });
