@@ -360,7 +360,7 @@ var asana = {
         'code': code
       }
     };
-    request(params, function(err, res, payload) {
+    request(params, function(err, response, payload) {
       if (err) {
         console.log('initial error', err);
         res.status(501).send(err);
