@@ -172,8 +172,6 @@ var asana = {
       url: action.pull_request.html_url
     }
     client.get(pull.creator, function(err, asanaId) {
-      console.log('xcxc ASANAID', asanaId);
-      //asanaId is null if not found
       var form = {
         assignee: asanaId || credentials.defaultAssignee,
         name: pull.title,
