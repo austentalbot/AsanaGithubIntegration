@@ -347,8 +347,9 @@ var asana = {
       }
     });
   },
-  requestOAuthAccessToken: function(code, res) {
-   var params = {
+  requestOAuthAccessToken: function(code, state, res) {
+    console.log('requesting oauth access token', code, state);
+    var params = {
       method: 'POST',
       url: [asanaUrl, '/-/oauth_token'].join(''),
       formData: {
