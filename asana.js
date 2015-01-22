@@ -2,7 +2,7 @@ var request = require('request');
 var moment = require('moment-timezone');
 
 var asanaUrl = 'https://app.asana.com/api/1.0';
-
+var asanaOAuthUrl = 'https://app.asana.com/-/oauth_token';
 //load credentials locally or from host
 var credentials = {};
 if (process.env.PORT===undefined) {
@@ -351,7 +351,7 @@ var asana = {
     console.log('requesting oauth access token', code, state);
     var params = {
       method: 'POST',
-      url: [asanaUrl, '/-/oauth_token'].join(''),
+      url: asanaOAuthUrl,
       formData: {
         'grant_type': 'authorization_code',
         'client_id': credentials.asanaOAuthClientID,
@@ -368,7 +368,10 @@ var asana = {
       var result = JSON.parse(payload);
       if (result.error) {
         console.log('result error', result.error);
-        // res.status(501).send(result.err);
+        // res.status(501).send(result.error);
+      } else if (result.errors) {
+        console.log('result errors', result.errors);
+        // res.status(501).send(result.errors);
       } else {
         console.log('result success', result);
         // res.status(200).send(result);
