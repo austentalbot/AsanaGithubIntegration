@@ -173,6 +173,17 @@ var asana = {
     }
     client.get(pull.creator, function(err, asanaId) {
       console.log('xcxc ASANAID', asanaId);
+      //asanaId is null if not found
+      var form = {
+        assignee: asanaId || credentials.defaultAssignee,
+        name: pull.title,
+        workspace: credentials.asanaWorkspace,
+        projects: [req.params.project],
+        notes: pull.notes(),
+      };
+      if (asanaId) {
+        form.followers = [asanaId];
+      }
       request.post({
         url: asanaUrl + '/tasks',
         auth: {
@@ -180,14 +191,7 @@ var asana = {
           'pass': '',
           'sendImmediately': true
         },
-        form: {
-          assignee: asanaId || credentials.defaultAssignee,
-          name: pull.title,
-          workspace: credentials.asanaWorkspace,
-          projects: [req.params.project],
-          notes: pull.notes(),
-          followers: [asanaId]
-        }
+        form: form
       }, function(err, resp, body) {
         console.log(err);
         console.log(body);
