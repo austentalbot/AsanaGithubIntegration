@@ -37,13 +37,15 @@ app.get('/style.css', function(req, res){
 app.get('/auth', function(req, res) {
   console.log('auth get');
   console.log(req.query);
-  asana.requestOAuthAccessToken(req.query.code, req.query.state, res);
+  if (req.query.code) {
+    asana.requestOAuthAccessToken(req.query.code, req.query.state, res);
+  }
 });
 
-app.get('/authToken', function(req, res) {
-  console.log('auth token');
-  console.log(req.query);
-});
+// app.get('/authToken', function(req, res) {
+//   console.log('auth token');
+//   console.log(req.query);
+// });
 
 //add user to database
 app.post('/addUser', function(req, res) {

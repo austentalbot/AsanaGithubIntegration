@@ -356,7 +356,7 @@ var asana = {
         'grant_type': 'authorization_code',
         'client_id': credentials.asanaOAuthClientID,
         'client_secret': credentials.asanaOAuthClientSecret,
-        'redirect_uri': 'https://asanagh.azurewebsites.net/authToken',
+        'redirect_uri': 'https://asanagh.azurewebsites.net/auth',
         'code': code
       }
     };
