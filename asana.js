@@ -356,25 +356,24 @@ var asana = {
         'grant_type': 'authorization_code',
         'client_id': credentials.asanaOAuthClientID,
         'client_secret': credentials.asanaOAuthClientSecret,
-        'redirect_uri': 'https://asanagh.azurewebsites.net/auth',
+        'redirect_uri': 'https://asanagh.azurewebsites.net/authToken',
         'code': code
       }
     };
     request(params, function(err, res, payload) {
       if (err) {
         console.log('initial error', err);
-        // res.status(501).send(err);
+        res.status(501).send(err);
       }
       var result = JSON.parse(payload);
       if (result.error) {
         console.log('result error', result.error);
-        // res.status(501).send(result.error);
-      } else if (result.errors) {
-        console.log('result errors', result.errors);
-        // res.status(501).send(result.errors);
+        res.status(501).send(result.error);
       } else {
         console.log('result success', result);
-        // res.status(200).send(result);
+        //save token, refresh token, timestamp and github handle (from state) in redis
+        //token only lasts one hour, so need to request new token from request token for gh actions
+        res.status(200).send(result);
       }
     });
   }
