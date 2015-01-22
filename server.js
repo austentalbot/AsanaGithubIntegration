@@ -37,7 +37,8 @@ app.get('/style.css', function(req, res){
 app.get('/auth', function(req, res) {
   console.log('auth get');
   console.log(req.query);
-  //take state and add user to db
+  //get the access token from the code
+  //save access token and state in db
   // res.status(200).send();
 });
 

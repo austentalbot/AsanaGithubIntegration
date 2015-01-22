@@ -17,7 +17,8 @@ if (process.env.PORT===undefined) {
     redisHost: process.env['redisHost'],
     redisPort: process.env['redisPort'],
     redisAuth: process.env['redisAuth'],
-    asanaOAuthClientID: process.env['asanaOAuthClientID']
+    asanaOAuthClientID: process.env['asanaOAuthClientID'],
+    asanaOAuthClientSecret: process.env['asanaOAuthClientSecret']
   };
 }
 
@@ -345,6 +346,33 @@ var asana = {
         callback(task);
       }
     });
+  },
+  requestOAuthAccessToken: function(code, res) {
+   var params = {
+      method: 'POST',
+      url: [asanaUrl, '/-/oauth_token'].join(''),
+      formData: {
+        'grant_type': 'authorization_code',
+        'client_id': credentials.asanaOAuthClientID,
+        'client_secret': credentials.asanaOAuthClientSecret,
+        'redirect_uri': 'https://asanagh.azurewebsites.net/authToken',
+        'code': code
+      }
+    };
+    // request(params, function(err, res, payload) {
+    //   if (err) {
+    //     return reject(err);
+    //   }
+    //   if (res.statusCode !== 200) {
+    //     return reject(payload);
+    //   }
+    //   var result = JSON.parse(payload);
+    //   if (result.error) {
+    //     return reject(new OauthError(result));
+    //   } else {
+    //     return resolve(result);
+    //   }
+    // });
   }
 };
 
