@@ -39,13 +39,10 @@ app.get('/auth', function(req, res) {
   console.log(req.query);
   //get the access token from the code
   //save access token and state in db
-  asana.requestOAuthAccessToken(req.query.code, req.query.state, res);
+  if (req.query.code) {
+    asana.requestOAuthAccessToken(req.query.code, req.query.state, res);
+  }
   // res.status(200).send();
-});
-
-app.get('/authToken', function(req, res) {
-  console.log('auth token get');
-  console.log(req.query);
 });
 
 //add user to database
