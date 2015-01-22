@@ -172,6 +172,7 @@ var asana = {
       url: action.pull_request.html_url
     }
     client.get(pull.creator, function(err, asanaId) {
+      console.log('xcxc ASANAID', asanaId);
       request.post({
         url: asanaUrl + '/tasks',
         auth: {

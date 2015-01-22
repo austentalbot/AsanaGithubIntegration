@@ -47,10 +47,10 @@ var AddUser = React.createClass({
   },
   onInputChange: function(e) {
     this.setState({
-        added: e.target.value.length === 0 && this.state.added,
-        error: e.target.value.length === 0 && this.state.error,
-        buttonEnabled: document.getElementById('asanaInput').value.length
-          && document.getElementById('githubInput').value.length
+      added: e.target.value.length === 0 && this.state.added,
+      error: e.target.value.length === 0 && this.state.error,
+      buttonEnabled: document.getElementById('asanaInput').value.length
+        && document.getElementById('githubInput').value.length
     });
   },
   render: function() {
@@ -58,7 +58,7 @@ var AddUser = React.createClass({
       children: [
         r('h1', {}, 'Asana github pull request integration'),
         r('div', {className: 'directions'}, 'Submit your Asana id and github handle to connect the accounts.'),
-        r('div', {}, 'Asana id:'),
+        r('div', {}, 'Asana id (get this by running "env.user().global_id" in the console):'),
         r('input', {
           type: 'text',
           id: 'asanaInput',
