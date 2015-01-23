@@ -42,11 +42,6 @@ app.get('/auth', function(req, res) {
   }
 });
 
-// app.get('/authToken', function(req, res) {
-//   console.log('auth token');
-//   console.log(req.query);
-// });
-
 //add user to database
 app.post('/addUser', function(req, res) {
   console.log('add user');
